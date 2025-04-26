@@ -1,0 +1,9 @@
+---
+---
+/* Sobrescribe estilos de Chirpy para la imagen de portada */
+.post-cover {
+  width: 100%;
+  max-width: 100px !important;  /* !important para priorizar sobre el tema */
+  height: auto;
+  margin: 0 auto;
+}
