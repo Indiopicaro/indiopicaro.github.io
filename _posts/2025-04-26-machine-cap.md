@@ -3,6 +3,7 @@ tags:
   - HTB
   - eJPT
 title: Machine Cap
+comments: true
 author: Indiopicaro
 image: /assets/img/machines/cap/capbanner.jpeg
 ---
