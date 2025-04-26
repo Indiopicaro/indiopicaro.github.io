@@ -20,7 +20,7 @@ Cap es una máquina Linux de dificultad fácil que ejecuta un servidor HTTP, lo 
 # Enumeración
 
 ```bash
-nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn <IP 10.10.10.245 -oG puertos
+nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn 10.10.10.245 -oG puertos
 ```
 
 ```bash
@@ -34,7 +34,6 @@ nmap -sCV -p21,22,80 10.10.10.245 -oN versiones
 
 
 # WEB
-
 ## Information Leakage
 
 La página web revela información al consultarla a través de la URL.
@@ -43,15 +42,34 @@ La página web revela información al consultarla a través de la URL.
 
 ### IDOR
 
-
 Un aspecto interesante a tener en cuenta es el esquema de URL al crear una nueva captura, que tiene el formato /data/id. El ID se incrementa con cada captura. Es posible que haya habido capturas de paquetes de usuarios anteriores. Al navegar a /data/0, se revela una captura de paquetes con varios paquetes.
 
-
 ![IDOR](/assets/img/machines/cap/2.jpeg)
+
+#### Extracción de datos de un archivo de captura de red (.pcap)
+
+Para analizar el tráfico capturado y extraer el contenido de los paquetes TCP de forma limpia, utilizamos el siguiente comando:
 
 ```bash
 tshark -r 0.pcap -Tfields -e tcp.payload 2>/dev/null | xxd -ps -r
 ```
+¿Qué hace este comando?
+- `tshark -r 0.pcap`  
+    ➔ **Abre y lee** el archivo de captura de paquetes `0.pcap`.
+    
+- `-T fields -e tcp.payload`  
+    ➔ **Extrae solo** el campo `tcp.payload`, es decir, **el contenido crudo** de los paquetes TCP.
+    
+- `2>/dev/null`  
+    ➔ **Elimina mensajes de error** (redirige los errores a `/dev/null` para que no ensucien la salida).
+    
+- `|`  
+    ➔ **Pasa** la salida anterior como entrada al siguiente comando.
+    
+- `xxd -ps -r`  
+    ➔ **Convierte** los datos de **hexadecimal plano a datos legibles** (básicamente "decodifica" el payload).
+
+Dentro del tráfico extraído se encontró la siguiente contraseña:
 
 ```bash
 PASS Buck3tH4TF0RM3!
