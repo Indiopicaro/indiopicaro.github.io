@@ -38,6 +38,63 @@ function initQuiz(quizData) {
         }
 
         quizTitle.textContent = quizData.title || 'Cuestionario';
+        quizQuestions.innerHTML = ''; // Limpiar contenedor
+        
+        // Crear el contenedor para el resultado
+        const resultContainer = document.createElement('div');
+        resultContainer.className = 'quiz-result hidden';
+        resultContainer.innerHTML = `
+            <div class="result-message"></div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+                <div class="progress-text"></div>
+            </div>
+        `;
+        quizQuestions.parentNode.insertBefore(resultContainer, document.querySelector('.check-answers'));
+        
+        // Agregar estilos para la barra de progreso
+        const style = document.createElement('style');
+        style.textContent = `
+            .quiz-result {
+                margin: 20px 0;
+                text-align: center;
+            }
+            .quiz-result.hidden {
+                display: none;
+            }
+            .result-message {
+                font-size: 1.2rem;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+            .progress-bar {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+                height: 20px;
+                position: relative;
+                margin: 10px 0;
+                overflow: hidden;
+            }
+            .progress-fill {
+                background: #4CAF50;
+                height: 100%;
+                width: 0;
+                transition: width 0.5s ease;
+                border-radius: 10px;
+            }
+            .progress-fill.partial {
+                background: #ff9800;
+            }
+            .progress-text {
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: white;
+                font-weight: bold;
+            }
+        `;
+        document.head.appendChild(style);
         
         quizData.questions.forEach((question, index) => {
             const questionDiv = document.createElement('div');
@@ -67,6 +124,8 @@ function initQuiz(quizData) {
         document.querySelector('.check-answers').addEventListener('click', function() {
             console.log('Verificando respuestas');
             const questions = document.querySelectorAll('.quiz-question');
+            let correctAnswers = 0;
+            const totalQuestions = questions.length;
             
             questions.forEach((question) => {
                 const selectedOption = question.querySelector('input[type="radio"]:checked');
@@ -80,12 +139,35 @@ function initQuiz(quizData) {
                     feedback.textContent = isCorrect ? 
                         '¡Correcto! ' + question.dataset.explanation :
                         'Incorrecto. Intenta de nuevo.';
+                    if (isCorrect) {
+                        correctAnswers++;
+                    }
                 } else {
                     feedback.classList.remove('hidden');
                     feedback.className = 'feedback incorrect';
                     feedback.textContent = 'Por favor, selecciona una respuesta.';
                 }
             });
+
+            // Actualizar la barra de progreso
+            const resultContainer = document.querySelector('.quiz-result');
+            const progressFill = resultContainer.querySelector('.progress-fill');
+            const progressText = resultContainer.querySelector('.progress-text');
+            const resultMessage = resultContainer.querySelector('.result-message');
+            
+            resultContainer.classList.remove('hidden');
+            const percentage = (correctAnswers / totalQuestions) * 100;
+            progressFill.style.width = `${percentage}%`;
+            progressFill.className = `progress-fill ${correctAnswers === totalQuestions ? '' : 'partial'}`;
+            progressText.textContent = `${correctAnswers}/${totalQuestions}`;
+            
+            if (correctAnswers === totalQuestions) {
+                resultMessage.textContent = '¡Felicitaciones!';
+                resultMessage.style.color = '#4CAF50';
+            } else {
+                resultMessage.textContent = '¡Sigue intentando!';
+                resultMessage.style.color = '#ff9800';
+            }
         });
 
     } catch (error) {
