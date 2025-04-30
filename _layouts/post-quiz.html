@@ -157,12 +157,28 @@ layout: post
   }
   </style>
 
-  <script src="{{ '/assets/js/quiz.js' | relative_url }}"></script>
+  <!-- Asegurarse de que jsyaml esté disponible -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+  
+  <!-- Cargar el script del quiz -->
+  <script src="{{ site.baseurl }}/assets/js/dist/quiz.min.js"></script>
+  
+  <!-- Inicializar el quiz -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      {% assign quiz_name = page.questions | remove: '.yml' %}
-      const quizData = {{ site.data[quiz_name] | jsonify }};
-      initQuiz(quizData);
+      console.log('DOM loaded, initializing quiz...');
+      try {
+        {% assign quiz_name = page.questions | remove: '.yml' %}
+        const quizData = {{ site.data[quiz_name] | jsonify }};
+        console.log('Quiz data loaded:', quizData);
+        if (typeof initQuiz === 'function') {
+          initQuiz(quizData);
+        } else {
+          console.error('initQuiz function not found');
+        }
+      } catch (error) {
+        console.error('Error initializing quiz:', error);
+      }
     });
   </script>
 </div>
