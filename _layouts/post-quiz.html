@@ -5,7 +5,7 @@ layout: post
 {{ content }}
 
 {% if page.quiz %}
-<div class="quiz-section">
+<div class="quiz-section" data-quiz-file="{{ page.questions }}">
   <button class="open-quiz-btn">Realizar Evaluación</button>
 
   <div id="quiz-modal" class="modal">
@@ -179,7 +179,6 @@ layout: post
 
   <script>
     (function() {
-      // Asegurarse de que el script se ejecute después de que el DOM esté completamente cargado
       function initQuiz() {
         console.log('Inicializando quiz');
         
@@ -188,8 +187,9 @@ layout: post
         const closeBtn = document.querySelector('.close-modal');
         const quizTitle = document.getElementById('quiz-title');
         const quizQuestions = document.getElementById('quiz-questions');
-
-        if (!modal || !openBtn || !closeBtn || !quizTitle || !quizQuestions) {
+        const quizSection = document.querySelector('.quiz-section');
+        
+        if (!modal || !openBtn || !closeBtn || !quizTitle || !quizQuestions || !quizSection) {
           console.error('No se encontraron elementos necesarios del quiz');
           return;
         }
@@ -206,6 +206,7 @@ layout: post
           document.body.style.overflow = 'auto';
         }
 
+        // Event Listeners
         openBtn.addEventListener('click', openModal);
         closeBtn.addEventListener('click', closeModal);
         window.addEventListener('click', function(event) {
@@ -223,8 +224,11 @@ layout: post
             throw new Error('El formato del quiz no es válido');
           }
 
+          // Almacenar los datos del quiz en el elemento
+          quizSection.dataset.quizData = JSON.stringify(quizData);
+
           quizTitle.textContent = quizData.title || 'Cuestionario';
-          quizQuestions.innerHTML = ''; // Limpiar contenedor antes de agregar preguntas
+          quizQuestions.innerHTML = ''; // Limpiar contenedor
           
           quizData.questions.forEach((question, index) => {
             const questionDiv = document.createElement('div');
@@ -303,7 +307,7 @@ layout: post
         }
       }
 
-      // Asegurarse de que el script se ejecute después de que el DOM esté cargado
+      // Inicializar cuando el DOM esté listo
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initQuiz);
       } else {
