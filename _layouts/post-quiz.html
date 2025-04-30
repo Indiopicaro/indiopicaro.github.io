@@ -201,13 +201,17 @@ layout: post
     try {
       {% assign quiz_name = page.questions | remove: '.yml' %}
       const quizData = {{ site.data[quiz_name] | jsonify }};
-      console.log('Datos del quiz cargados:', quizData);
+      console.log('Datos del quiz:', quizData);
 
-      if (!quizData || !quizData.questions) {
-        throw new Error('El archivo YAML no tiene el formato correcto');
+      if (!quizData) {
+        throw new Error('No se pudieron cargar los datos del quiz');
+      }
+
+      if (!quizData.questions || !Array.isArray(quizData.questions)) {
+        throw new Error('El formato del quiz no es válido');
       }
       
-      quizTitle.textContent = quizData.title;
+      quizTitle.textContent = quizData.title || 'Cuestionario';
       
       quizData.questions.forEach((question, index) => {
         const questionDiv = document.createElement('div');
@@ -228,10 +232,7 @@ layout: post
               </div>
             `).join('')}
           </div>
-          <div class="feedback hidden">
-            <p class="correct hidden">¡Correcto! ${question.explanation}</p>
-            <p class="incorrect hidden">Incorrecto. Intenta de nuevo.</p>
-          </div>
+          <div class="feedback hidden"></div>
         `;
         
         quizQuestions.appendChild(questionDiv);
@@ -245,8 +246,6 @@ layout: post
         questions.forEach((question) => {
           const selectedOption = question.querySelector('input[type="radio"]:checked');
           const feedback = question.querySelector('.feedback');
-          const correctFeedback = feedback.querySelector('.correct');
-          const incorrectFeedback = feedback.querySelector('.incorrect');
           const correctAnswer = parseInt(question.dataset.correctAnswer);
           
           if (selectedOption) {
