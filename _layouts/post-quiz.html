@@ -177,20 +177,138 @@ layout: post
   }
   </style>
 
-  <!-- Cargar el archivo quiz.js -->
-  <script src="{{ '/assets/js/quiz.js' | relative_url }}"></script>
-
-  <!-- Inicializar el quiz después de cargar quiz.js -->
   <script>
-    window.addEventListener('load', function() {
-      {% assign quiz_name = page.questions | remove: '.yml' %}
-      const quizData = {{ site.data[quiz_name] | jsonify }};
-      if (typeof initQuiz === 'function') {
-        initQuiz(quizData);
-      } else {
-        console.error('La función initQuiz no está disponible');
+    (function() {
+      function initQuiz() {
+        console.log('Inicializando quiz');
+        
+        const modal = document.getElementById('quiz-modal');
+        const openBtn = document.querySelector('.open-quiz-btn');
+        const closeBtn = document.querySelector('.close-modal');
+        const quizTitle = document.getElementById('quiz-title');
+        const quizQuestions = document.getElementById('quiz-questions');
+
+        if (!modal || !openBtn || !closeBtn || !quizTitle || !quizQuestions) {
+          console.error('No se encontraron elementos necesarios del quiz');
+          return;
+        }
+
+        function openModal() {
+          console.log('Abriendo modal');
+          modal.style.display = 'block';
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+          console.log('Cerrando modal');
+          modal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }
+
+        openBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+        window.addEventListener('click', function(event) {
+          if (event.target === modal) {
+            closeModal();
+          }
+        });
+
+        try {
+          {% assign quiz_name = page.questions | remove: '.yml' %}
+          const quizData = {{ site.data[quiz_name] | jsonify }};
+          console.log('Datos del quiz:', quizData);
+
+          if (!quizData || !quizData.questions || !Array.isArray(quizData.questions)) {
+            throw new Error('El formato del quiz no es válido');
+          }
+
+          quizTitle.textContent = quizData.title || 'Cuestionario';
+          quizQuestions.innerHTML = ''; // Limpiar contenedor
+          
+          quizData.questions.forEach((question, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'quiz-question';
+            questionDiv.dataset.correctAnswer = question.correct_answer;
+            questionDiv.dataset.explanation = question.explanation;
+            
+            questionDiv.innerHTML = `
+              <p class="question-text">${question.question}</p>
+              <div class="options">
+                ${question.options.map((option, optionIndex) => `
+                  <div class="option">
+                    <input type="radio" 
+                           name="question_${index}" 
+                           id="q${index}_${optionIndex}"
+                           value="${optionIndex}">
+                    <label for="q${index}_${optionIndex}">${option}</label>
+                  </div>
+                `).join('')}
+              </div>
+              <div class="feedback hidden"></div>
+            `;
+            
+            quizQuestions.appendChild(questionDiv);
+          });
+
+          const checkAnswersBtn = document.querySelector('.check-answers');
+          if (checkAnswersBtn) {
+            checkAnswersBtn.addEventListener('click', function() {
+              console.log('Verificando respuestas');
+              const questions = document.querySelectorAll('.quiz-question');
+              let correctAnswers = 0;
+              const totalQuestions = questions.length;
+              
+              questions.forEach((question) => {
+                const selectedOption = question.querySelector('input[type="radio"]:checked');
+                const feedback = question.querySelector('.feedback');
+                const correctAnswer = parseInt(question.dataset.correctAnswer);
+                
+                if (selectedOption) {
+                  const isCorrect = parseInt(selectedOption.value) === correctAnswer;
+                  feedback.classList.remove('hidden');
+                  feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+                  feedback.textContent = isCorrect ? 
+                    '¡Correcto! ' + question.dataset.explanation :
+                    'Incorrecto. Intenta de nuevo.';
+                  if (isCorrect) {
+                    correctAnswers++;
+                  }
+                } else {
+                  feedback.classList.remove('hidden');
+                  feedback.className = 'feedback incorrect';
+                  feedback.textContent = 'Por favor, selecciona una respuesta.';
+                }
+              });
+
+              const scoreDiv = document.getElementById('quiz-score');
+              if (scoreDiv) {
+                scoreDiv.classList.remove('hidden');
+                
+                if (correctAnswers === totalQuestions) {
+                  scoreDiv.className = 'quiz-score perfect';
+                  scoreDiv.textContent = `¡Felicitaciones! Has obtenido ${correctAnswers}/${totalQuestions}`;
+                } else {
+                  scoreDiv.className = 'quiz-score partial';
+                  scoreDiv.textContent = `¡Sigue intentando! Has obtenido ${correctAnswers}/${totalQuestions}`;
+                }
+              }
+            });
+          }
+
+        } catch (error) {
+          console.error('Error al cargar el quiz:', error);
+          quizTitle.textContent = 'Error al cargar el cuestionario';
+          quizQuestions.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+        }
       }
-    });
+
+      // Inicializar cuando el DOM esté listo
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initQuiz);
+      } else {
+        initQuiz();
+      }
+    })();
   </script>
 </div>
 {% endif %} 
