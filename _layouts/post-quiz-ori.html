@@ -1,0 +1,256 @@
+---
+layout: post
+---
+
+{{ content }}
+
+{% if page.quiz %}
+<div class="quiz-section">
+  <button class="open-quiz-btn">Realizar Evaluación</button>
+
+  <div id="quiz-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="quiz-container">
+        <h3 id="quiz-title">Cargando preguntas...</h3>
+        <div id="quiz-questions"></div>
+        <button class="check-answers">Verificar Respuestas</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+  .open-quiz-btn {
+    background-color: var(--link-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin: 1rem 0;
+  }
+
+  .open-quiz-btn:hover {
+    opacity: 0.9;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow-y: auto;
+  }
+
+  .modal-content {
+    background-color: var(--card-bg);
+    margin: 5% auto;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 800px;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+
+  .close-modal {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-color);
+  }
+
+  .close-modal:hover {
+    color: var(--link-color);
+  }
+
+  .quiz-container {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+  }
+
+  .quiz-question {
+    margin-bottom: 1.5rem;
+  }
+
+  .question-text {
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .option label {
+    cursor: pointer;
+  }
+
+  .feedback {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    border-radius: 4px;
+  }
+
+  .feedback.correct {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  .feedback.incorrect {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .check-answers {
+    background-color: var(--link-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: 1rem;
+  }
+
+  .check-answers:hover {
+    opacity: 0.9;
+  }
+  </style>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM cargado');
+    
+    const modal = document.getElementById('quiz-modal');
+    const openBtn = document.querySelector('.open-quiz-btn');
+    const closeBtn = document.querySelector('.close-modal');
+    const quizTitle = document.getElementById('quiz-title');
+    const quizQuestions = document.getElementById('quiz-questions');
+
+    // Verificar que los elementos existen
+    if (!modal) console.error('No se encontró el modal');
+    if (!openBtn) console.error('No se encontró el botón abrir');
+    if (!closeBtn) console.error('No se encontró el botón cerrar');
+    if (!quizTitle) console.error('No se encontró el título del quiz');
+    if (!quizQuestions) console.error('No se encontró el contenedor de preguntas');
+
+    // Función para abrir el modal
+    function openModal() {
+      console.log('Abriendo modal');
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Función para cerrar el modal
+    function closeModal() {
+      console.log('Cerrando modal');
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    // Agregar event listeners
+    openBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    window.addEventListener('click', function(event) {
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Cargar preguntas
+    try {
+      {% assign quiz_name = page.questions | remove: '.yml' %}
+      const quizData = {{ site.data[quiz_name] | jsonify }};
+      console.log('Datos del quiz cargados:', quizData);
+
+      if (!quizData || !quizData.questions) {
+        throw new Error('El archivo YAML no tiene el formato correcto');
+      }
+      
+      quizTitle.textContent = quizData.title;
+      
+      quizData.questions.forEach((question, index) => {
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'quiz-question';
+        questionDiv.dataset.correctAnswer = question.correct_answer;
+        
+        questionDiv.innerHTML = `
+          <p class="question-text">${question.question}</p>
+          <div class="options">
+            ${question.options.map((option, optionIndex) => `
+              <div class="option">
+                <input type="radio" 
+                       name="question_${index}" 
+                       id="q${index}_${optionIndex}"
+                       value="${optionIndex}">
+                <label for="q${index}_${optionIndex}">${option}</label>
+              </div>
+            `).join('')}
+          </div>
+          <div class="feedback hidden">
+            <p class="correct hidden">¡Correcto! ${question.explanation}</p>
+            <p class="incorrect hidden">Incorrecto. Intenta de nuevo.</p>
+          </div>
+        `;
+        
+        quizQuestions.appendChild(questionDiv);
+      });
+
+      // Agregar event listener para verificar respuestas
+      document.querySelector('.check-answers').addEventListener('click', function() {
+        console.log('Verificando respuestas');
+        const questions = document.querySelectorAll('.quiz-question');
+        
+        questions.forEach((question) => {
+          const selectedOption = question.querySelector('input[type="radio"]:checked');
+          const feedback = question.querySelector('.feedback');
+          const correctFeedback = feedback.querySelector('.correct');
+          const incorrectFeedback = feedback.querySelector('.incorrect');
+          const correctAnswer = parseInt(question.dataset.correctAnswer);
+          
+          feedback.classList.remove('hidden');
+          
+          if (selectedOption) {
+            const isCorrect = parseInt(selectedOption.value) === correctAnswer;
+            correctFeedback.classList.toggle('hidden', !isCorrect);
+            incorrectFeedback.classList.toggle('hidden', isCorrect);
+          } else {
+            correctFeedback.classList.add('hidden');
+            incorrectFeedback.classList.remove('hidden');
+            incorrectFeedback.textContent = 'Por favor, selecciona una respuesta.';
+          }
+        });
+      });
+
+    } catch (error) {
+      console.error('Error al cargar el quiz:', error);
+      quizTitle.textContent = 'Error al cargar el cuestionario';
+      quizQuestions.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+    }
+  });
+  </script>
+</div>
+{% endif %} 
