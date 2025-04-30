@@ -158,8 +158,13 @@ layout: post
   </style>
 
   <script>
+  // Incrustar los datos del quiz directamente en la página
+  {% assign quiz_name = page.questions | remove: '.yml' %}
+  const QUIZ_DATA = {{ site.data[quiz_name] | jsonify }};
+
   document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM cargado');
+    console.log('Datos del quiz:', QUIZ_DATA);
     
     const modal = document.getElementById('quiz-modal');
     const openBtn = document.querySelector('.open-quiz-btn');
@@ -199,21 +204,17 @@ layout: post
 
     // Cargar preguntas
     try {
-      {% assign quiz_name = page.questions | remove: '.yml' %}
-      const quizData = {{ site.data[quiz_name] | jsonify }};
-      console.log('Datos del quiz:', quizData);
-
-      if (!quizData) {
+      if (!QUIZ_DATA) {
         throw new Error('No se pudieron cargar los datos del quiz');
       }
 
-      if (!quizData.questions || !Array.isArray(quizData.questions)) {
+      if (!QUIZ_DATA.questions || !Array.isArray(QUIZ_DATA.questions)) {
         throw new Error('El formato del quiz no es válido');
       }
       
-      quizTitle.textContent = quizData.title || 'Cuestionario';
+      quizTitle.textContent = QUIZ_DATA.title || 'Cuestionario';
       
-      quizData.questions.forEach((question, index) => {
+      QUIZ_DATA.questions.forEach((question, index) => {
         const questionDiv = document.createElement('div');
         questionDiv.className = 'quiz-question';
         questionDiv.dataset.correctAnswer = question.correct_answer;
