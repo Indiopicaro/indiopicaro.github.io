@@ -22,7 +22,7 @@ questions:
 
     options:
 
-      - "Remote Code Execution (RCE) es una de las vulnerabilidades más graves, ya que permite a un atacante ejecutar comandos en el sistema objetivo. Para prevenir RCE, es fundamental validar todas las entradas de los usuarios y asegurarse de que los archivos ejecutables tengan los permisos más restrictivos posibles."
+      - "Es una vulnerabilidad que permite a un atacante ejecutar comandos en el sistema objetivo."
 
       - "Es un ataque de fuerza bruta en contraseñas. Se puede prevenir usando contraseñas fuertes."
 
@@ -94,6 +94,6 @@ questions:
 
       - "Instalando antivirus"
 
-    correct_answer: 0
+    correct_answer: 1
 
     explanation: "Desactivar funciones que permiten ejecución de comandos desde código PHP es una medida de prevención efectiva contra RCE."
