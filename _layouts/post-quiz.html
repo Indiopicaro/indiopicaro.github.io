@@ -15,12 +15,6 @@ layout: post
         <h3 id="quiz-title">Cargando preguntas...</h3>
         <div id="quiz-questions"></div>
         <button class="check-answers">Verificar Respuestas</button>
-        <div id="quiz-progress" class="hidden">
-          <p id="score-text"></p>
-          <div class="progress-bar">
-            <div class="progress-fill"></div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -161,172 +155,15 @@ layout: post
   .check-answers:hover {
     opacity: 0.9;
   }
-
-  .progress-bar {
-    width: 100%;
-    height: 20px;
-    background-color: #f0f0f0;
-    border-radius: 10px;
-    margin: 10px 0;
-    overflow: hidden;
-  }
-
-  .progress-fill {
-    height: 100%;
-    background-color: var(--link-color);
-    transition: width 0.3s ease;
-  }
-
-  #quiz-progress {
-    margin-top: 20px;
-    text-align: center;
-  }
-
-  #quiz-progress.hidden {
-    display: none;
-  }
-
-  #score-text {
-    font-size: 1.2rem;
-    font-weight: 500;
-    margin: 10px 0;
-  }
   </style>
 
+  <script src="{{ '/assets/js/quiz.js' | relative_url }}"></script>
   <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM cargado');
-    
-    const modal = document.getElementById('quiz-modal');
-    const openBtn = document.querySelector('.open-quiz-btn');
-    const closeBtn = document.querySelector('.close-modal');
-    const quizTitle = document.getElementById('quiz-title');
-    const quizQuestions = document.getElementById('quiz-questions');
-
-    // Verificar que los elementos existen
-    if (!modal) console.error('No se encontró el modal');
-    if (!openBtn) console.error('No se encontró el botón abrir');
-    if (!closeBtn) console.error('No se encontró el botón cerrar');
-    if (!quizTitle) console.error('No se encontró el título del quiz');
-    if (!quizQuestions) console.error('No se encontró el contenedor de preguntas');
-
-    // Función para abrir el modal
-    function openModal() {
-      console.log('Abriendo modal');
-      modal.style.display = 'block';
-      document.body.style.overflow = 'hidden';
-    }
-
-    // Función para cerrar el modal
-    function closeModal() {
-      console.log('Cerrando modal');
-      modal.style.display = 'none';
-      document.body.style.overflow = 'auto';
-    }
-
-    // Agregar event listeners
-    openBtn.addEventListener('click', openModal);
-    closeBtn.addEventListener('click', closeModal);
-    window.addEventListener('click', function(event) {
-      if (event.target === modal) {
-        closeModal();
-      }
-    });
-
-    // Cargar preguntas
-    try {
+    document.addEventListener('DOMContentLoaded', function() {
       {% assign quiz_name = page.questions | remove: '.yml' %}
       const quizData = {{ site.data[quiz_name] | jsonify }};
-      console.log('Datos del quiz:', quizData);
-
-      if (!quizData) {
-        throw new Error('No se pudieron cargar los datos del quiz');
-      }
-
-      if (!quizData.questions || !Array.isArray(quizData.questions)) {
-        throw new Error('El formato del quiz no es válido');
-      }
-      
-      quizTitle.textContent = quizData.title || 'Cuestionario';
-      
-      quizData.questions.forEach((question, index) => {
-        const questionDiv = document.createElement('div');
-        questionDiv.className = 'quiz-question';
-        questionDiv.dataset.correctAnswer = question.correct_answer;
-        questionDiv.dataset.explanation = question.explanation;
-        
-        questionDiv.innerHTML = `
-          <p class="question-text">${question.question}</p>
-          <div class="options">
-            ${question.options.map((option, optionIndex) => `
-              <div class="option">
-                <input type="radio" 
-                       name="question_${index}" 
-                       id="q${index}_${optionIndex}"
-                       value="${optionIndex}">
-                <label for="q${index}_${optionIndex}">${option}</label>
-              </div>
-            `).join('')}
-          </div>
-          <div class="feedback hidden"></div>
-        `;
-        
-        quizQuestions.appendChild(questionDiv);
-      });
-
-      // Agregar event listener para verificar respuestas
-      document.querySelector('.check-answers').addEventListener('click', function() {
-        console.log('Verificando respuestas');
-        const questions = document.querySelectorAll('.quiz-question');
-        let correctAnswers = 0;
-        const totalQuestions = questions.length;
-        
-        questions.forEach((question) => {
-          const selectedOption = question.querySelector('input[type="radio"]:checked');
-          const feedback = question.querySelector('.feedback');
-          const correctAnswer = parseInt(question.dataset.correctAnswer);
-          
-          if (selectedOption) {
-            const isCorrect = parseInt(selectedOption.value) === correctAnswer;
-            feedback.classList.remove('hidden');
-            feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
-            feedback.textContent = isCorrect ? 
-              '¡Correcto! ' + question.dataset.explanation :
-              'Incorrecto. Intenta de nuevo.';
-            if (isCorrect) {
-              correctAnswers++;
-            }
-          } else {
-            feedback.classList.remove('hidden');
-            feedback.className = 'feedback incorrect';
-            feedback.textContent = 'Por favor, selecciona una respuesta.';
-          }
-        });
-
-        // Mostrar progreso
-        const progressDiv = document.getElementById('quiz-progress');
-        const scoreText = document.getElementById('score-text');
-        const progressFill = document.querySelector('.progress-fill');
-        
-        progressDiv.classList.remove('hidden');
-        const percentage = (correctAnswers / totalQuestions) * 100;
-        progressFill.style.width = `${percentage}%`;
-        
-        scoreText.textContent = `${correctAnswers}/${totalQuestions}`;
-        
-        if (correctAnswers === totalQuestions) {
-          scoreText.textContent += ' - ¡Felicitaciones!';
-        } else {
-          scoreText.textContent += ' - ¡Sigue intentando!';
-        }
-      });
-
-    } catch (error) {
-      console.error('Error al cargar el quiz:', error);
-      quizTitle.textContent = 'Error al cargar el cuestionario';
-      quizQuestions.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
-    }
-  });
+      initQuiz(quizData);
+    });
   </script>
 </div>
 {% endif %} 
