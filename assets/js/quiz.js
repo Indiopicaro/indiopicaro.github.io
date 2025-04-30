@@ -38,7 +38,6 @@ function initQuiz(quizData) {
         }
 
         quizTitle.textContent = quizData.title || 'Cuestionario';
-        quizQuestions.innerHTML = ''; // Limpiar contenedor
         
         quizData.questions.forEach((question, index) => {
             const questionDiv = document.createElement('div');
@@ -68,8 +67,6 @@ function initQuiz(quizData) {
         document.querySelector('.check-answers').addEventListener('click', function() {
             console.log('Verificando respuestas');
             const questions = document.querySelectorAll('.quiz-question');
-            let correctAnswers = 0;
-            const totalQuestions = questions.length;
             
             questions.forEach((question) => {
                 const selectedOption = question.querySelector('input[type="radio"]:checked');
@@ -83,28 +80,12 @@ function initQuiz(quizData) {
                     feedback.textContent = isCorrect ? 
                         '¡Correcto! ' + question.dataset.explanation :
                         'Incorrecto. Intenta de nuevo.';
-                    if (isCorrect) {
-                        correctAnswers++;
-                    }
                 } else {
                     feedback.classList.remove('hidden');
                     feedback.className = 'feedback incorrect';
                     feedback.textContent = 'Por favor, selecciona una respuesta.';
                 }
             });
-
-            const scoreDiv = document.getElementById('quiz-score');
-            if (scoreDiv) {
-                scoreDiv.classList.remove('hidden');
-                
-                if (correctAnswers === totalQuestions) {
-                    scoreDiv.className = 'quiz-score perfect';
-                    scoreDiv.textContent = `¡Felicitaciones! Has obtenido ${correctAnswers}/${totalQuestions}`;
-                } else {
-                    scoreDiv.className = 'quiz-score partial';
-                    scoreDiv.textContent = `¡Sigue intentando! Has obtenido ${correctAnswers}/${totalQuestions}`;
-                }
-            }
         });
 
     } catch (error) {
