@@ -15,6 +15,7 @@ layout: post
         <h3 id="quiz-title">Cargando preguntas...</h3>
         <div id="quiz-questions"></div>
         <button class="check-answers">Verificar Respuestas</button>
+        <div id="score-display" class="score-display hidden"></div>
       </div>
     </div>
   </div>
@@ -140,6 +141,25 @@ layout: post
     display: none !important;
   }
 
+  .score-display {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 1rem;
+    border-radius: 6px;
+  }
+
+  .score-display.perfect {
+    background-color: #4caf50;
+    color: white;
+  }
+
+  .score-display.incomplete {
+    background-color: #ff9800;
+    color: white;
+  }
+
   .check-answers {
     background-color: var(--link-color);
     color: white;
@@ -242,7 +262,7 @@ layout: post
       document.querySelector('.check-answers').addEventListener('click', function() {
         console.log('Verificando respuestas');
         const questions = document.querySelectorAll('.quiz-question');
-        let correctAnswers = 0;
+        let correctCount = 0;
         const totalQuestions = questions.length;
         
         questions.forEach((question) => {
@@ -258,7 +278,7 @@ layout: post
               '¡Correcto! ' + question.dataset.explanation :
               'Incorrecto. Intenta de nuevo.';
             if (isCorrect) {
-              correctAnswers++;
+              correctCount++;
             }
           } else {
             feedback.classList.remove('hidden');
@@ -267,34 +287,17 @@ layout: post
           }
         });
 
-        // Mostrar el resultado total
-        const resultDiv = document.createElement('div');
-        resultDiv.className = 'quiz-result';
-        resultDiv.style.marginTop = '2rem';
-        resultDiv.style.padding = '1rem';
-        resultDiv.style.borderRadius = '6px';
-        resultDiv.style.textAlign = 'center';
-        resultDiv.style.fontWeight = 'bold';
-        resultDiv.style.fontSize = '1.2rem';
-
-        if (correctAnswers === totalQuestions) {
-          resultDiv.style.backgroundColor = '#4caf50';
-          resultDiv.style.color = 'white';
-          resultDiv.textContent = `¡Felicitaciones! Has respondido correctamente todas las preguntas (${correctAnswers}/${totalQuestions})`;
+        // Mostrar el contador de respuestas correctas
+        const scoreDisplay = document.getElementById('score-display');
+        scoreDisplay.classList.remove('hidden');
+        
+        if (correctCount === totalQuestions) {
+          scoreDisplay.className = 'score-display perfect';
+          scoreDisplay.textContent = `¡Felicitaciones! Has obtenido ${correctCount}/${totalQuestions} respuestas correctas.`;
         } else {
-          resultDiv.style.backgroundColor = '#f44336';
-          resultDiv.style.color = 'white';
-          resultDiv.textContent = `¡Sigue intentando! Has respondido correctamente ${correctAnswers} de ${totalQuestions} preguntas`;
+          scoreDisplay.className = 'score-display incomplete';
+          scoreDisplay.textContent = `¡Sigue intentando! Has obtenido ${correctCount}/${totalQuestions} respuestas correctas.`;
         }
-
-        // Remover resultado anterior si existe
-        const oldResult = document.querySelector('.quiz-result');
-        if (oldResult) {
-          oldResult.remove();
-        }
-
-        // Agregar el nuevo resultado
-        document.querySelector('.quiz-container').appendChild(resultDiv);
       });
 
     } catch (error) {
