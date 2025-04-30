@@ -203,6 +203,9 @@ compress_html:
   ignore:
     envs: [development]
 
+include:
+  - assets/js/quiz.js
+
 exclude:
   - "*.gem"
   - "*.gemspec"
