@@ -93,6 +93,22 @@ function initQuiz(quizData) {
                 color: white;
                 font-weight: bold;
             }
+            .check-answers {
+                background-color: #1976d2;  /* Cambiado a un azul más oscuro */
+                color: white;
+                border: none;
+                padding: 0.8rem 1.5rem;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: 500;
+                margin-top: 2rem;
+                font-size: 1rem;
+            }
+
+            .check-answers:hover {
+                background-color: #1565c0;  /* Color más oscuro al pasar el mouse */
+                opacity: 0.9;
+            }
         `;
         document.head.appendChild(style);
         
