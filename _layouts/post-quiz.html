@@ -14,7 +14,6 @@ layout: post
       <div class="quiz-container">
         <h3 id="quiz-title">Cargando preguntas...</h3>
         <div id="quiz-questions"></div>
-        <div id="quiz-score" class="hidden"></div>
         <button class="check-answers">Verificar Respuestas</button>
       </div>
     </div>
@@ -156,46 +155,10 @@ layout: post
   .check-answers:hover {
     opacity: 0.9;
   }
-
-  #quiz-score {
-    margin-top: 1rem;
-    padding: 1rem;
-    border-radius: 6px;
-    text-align: right;
-    font-size: 1.2rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  #quiz-score.partial {
-    background-color: #ff5252;
-    color: white;
-  }
-
-  #quiz-score.perfect {
-    background-color: #4caf50;
-    color: white;
-  }
-
-  .score-bar {
-    flex-grow: 1;
-    height: 20px;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    margin: 0 1rem;
-    overflow: hidden;
-  }
-
-  .score-progress {
-    height: 100%;
-    background-color: white;
-    transition: width 0.3s ease;
-  }
   </style>
 
   <script src="{{ '/assets/js/quiz.js' | relative_url }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       {% assign quiz_name = page.questions | remove: '.yml' %}

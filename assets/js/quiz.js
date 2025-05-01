@@ -93,22 +93,6 @@ function initQuiz(quizData) {
                 color: white;
                 font-weight: bold;
             }
-            .check-answers {
-                background-color: #1976d2;  /* Cambiado a un azul más oscuro */
-                color: white;
-                border: none;
-                padding: 0.8rem 1.5rem;
-                border-radius: 4px;
-                cursor: pointer;
-                font-weight: 500;
-                margin-top: 2rem;
-                font-size: 1rem;
-            }
-
-            .check-answers:hover {
-                background-color: #1565c0;  /* Color más oscuro al pasar el mouse */
-                opacity: 0.9;
-            }
         `;
         document.head.appendChild(style);
         
@@ -180,6 +164,7 @@ function initQuiz(quizData) {
             if (correctAnswers === totalQuestions) {
                 resultMessage.textContent = '¡Felicitaciones!';
                 resultMessage.style.color = '#4CAF50';
+                triggerConfetti();
             } else {
                 resultMessage.textContent = '¡Sigue intentando!';
                 resultMessage.style.color = '#ff9800';
@@ -191,4 +176,32 @@ function initQuiz(quizData) {
         quizTitle.textContent = 'Error al cargar el cuestionario';
         quizQuestions.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
     }
+}
+
+function triggerConfetti() {
+    const duration = 3000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+
+    function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    const interval = setInterval(function() {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+            return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+        confetti(Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+        }));
+        confetti(Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+        }));
+    }, 250);
 }
