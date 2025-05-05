@@ -248,19 +248,7 @@ layout: post
     document.addEventListener('DOMContentLoaded', function() {
       {% assign quiz_name = page.questions | remove: '.yml' %}
       const quizData = {{ site.data[quiz_name] | jsonify }};
-      console.log('quizData cargado:', quizData);
-      if (!quizData || !quizData.questions || !Array.isArray(quizData.questions)) {
-        document.getElementById('quiz-title').textContent = 'Error: No se pudo cargar el cuestionario.';
-        document.getElementById('quiz-questions').innerHTML = '<p style="color:red">Error: Datos del quiz no válidos.</p>';
-        return;
-      }
-      try {
-        initQuiz(quizData);
-      } catch (e) {
-        document.getElementById('quiz-title').textContent = 'Error al inicializar el quiz';
-        document.getElementById('quiz-questions').innerHTML = '<p style="color:red">' + e.message + '</p>';
-        console.error('Error en initQuiz:', e);
-      }
+      initQuiz(quizData);
       // Aplicar resaltado de sintaxis a los bloques de código del quiz
       setTimeout(function() {
         document.querySelectorAll('#quiz-questions pre code').forEach((block) => {
