@@ -102,16 +102,11 @@ function initQuiz(quizData) {
             questionDiv.dataset.correctAnswer = question.correct_answer;
             questionDiv.dataset.explanation = question.explanation;
             
-            // Procesar la pregunta y las opciones con marked
-            const processedQuestion = marked.parse(question.question);
-            const processedOptions = question.options.map(option => marked.parse(option));
-            
             questionDiv.innerHTML = `
-                <div class="question-text">${processedQuestion}</div>
+                <p class="question-text">${question.question}</p>
                 <div class="options">
-                    ${processedOptions.map((option, optionIndex) => `
-                        <div class="option-card">
-                            <span class="option-number">${optionIndex + 1}</span>
+                    ${question.options.map((option, optionIndex) => `
+                        <div class="option">
                             <input type="radio" 
                                    name="question_${index}" 
                                    id="q${index}_${optionIndex}"
