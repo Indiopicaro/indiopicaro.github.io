@@ -3,10 +3,6 @@
 # Import the theme
 theme: jekyll-theme-chirpy
 
-plugins:
-  - jekyll-theme-chirpy
-  - github-pages
-
 # The language of the webpage › http://www.lingoes.net/en/translator/langcode.htm
 # If it has the same name as one of the files in folder `_data/locales`, the layout language will also be changed,
 # otherwise, the layout language will use the default value of 'en'.
@@ -18,7 +14,7 @@ timezone:
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Alex Villegas (Indiopicaro)
+title: Alex Villegas
 tagline: ciberseguridad y pentesting | ing. en Telecomunicaciones, conectividad y redes
 
 description: "Bienvenido a mi página. Soy Alex Villegas y comparto mis experiencias en ciberseguridad, técnicas de hacking ético y proyectos personales."
