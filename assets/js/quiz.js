@@ -111,7 +111,6 @@ function initQuiz(quizData) {
                 <div class="options">
                     ${processedOptions.map((option, optionIndex) => `
                         <div class="option-card">
-                            <span class="option-number">${optionIndex + 1}</span>
                             <input type="radio" 
                                    name="question_${index}" 
                                    id="q${index}_${optionIndex}"

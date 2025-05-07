@@ -241,14 +241,24 @@ layout: post
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="{{ '/assets/js/quiz.js' | relative_url }}"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       {% assign quiz_name = page.questions | remove: '.yml' %}
-      const quizData = {{ site.data[quiz_name] | jsonify }};
-      initQuiz(quizData);
+      fetch("{{ '/assets/quiz/' | append: page.questions | relative_url }}")
+        .then(response => response.text())
+        .then(text => {
+          const quizData = jsyaml.load(text);
+          initQuiz(quizData);
+        })
+        .catch(error => {
+          console.error('Error al cargar el quiz:', error);
+          document.getElementById('quiz-title').textContent = 'Error al cargar el cuestionario';
+          document.getElementById('quiz-questions').innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+        });
       // Aplicar resaltado de sintaxis a los bloques de código del quiz
       setTimeout(function() {
         document.querySelectorAll('#quiz-questions pre code').forEach((block) => {
