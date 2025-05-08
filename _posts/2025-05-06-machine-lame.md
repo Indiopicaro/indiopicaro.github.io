@@ -69,7 +69,9 @@ Nmap done: 1 IP address (1 host up) scanned in 69.69 seconds
 ```
 
 Al escanear la máquina con Nmap, se identificaron los siguientes puertos abiertos:
+
 ![1](/assets/img/machines/lame/1.jpeg)
+
 Estos resultados revelan servicios comunes, pero destacan dos elementos críticos:  
 una versión vulnerable del servicio **vsftpd** y un servicio **Samba** que más adelante se demostrará vulnerable a ejecución remota de comandos.
 
