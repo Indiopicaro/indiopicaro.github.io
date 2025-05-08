@@ -1,13 +1,10 @@
 ---
 tags:
   - eJPT
-title:
-  - Machine Lame
-comments: "true"
+title: Machine Lame
+comments: true
 image: /assets/img/machines/lame/lamebanner.jpeg
 ---
-![[Pasted image 20250506235734.png]]
-
 # Introducción
 En este writeup analizaremos paso a paso la máquina Lame de HackTheBox, una máquina de nivel fácil orientada a principiantes. Durante el proceso, realizaremos una enumeración básica de servicios, identificaremos vulnerabilidades conocidas en versiones antiguas de FTP y Samba, y finalmente explotaremos una de ellas para obtener acceso root al sistema.  
 El objetivo principal es comprender cómo una mala configuración o la falta de actualizaciones pueden poner en riesgo todo un servidor.
