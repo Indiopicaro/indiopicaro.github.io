@@ -69,13 +69,7 @@ Nmap done: 1 IP address (1 host up) scanned in 69.69 seconds
 ```
 
 Al escanear la máquina con Nmap, se identificaron los siguientes puertos abiertos:
-
-| Port    | Service      | Version                       |
-| ------- | ------------ | ----------------------------- |
-| 21/tcp  | ftp          | vsftpd 2.3.4                  |
-| 22/tcp  | ssh          | OpenSSH 4.7p1 Debian 8ubuntu1 |
-| 139/tcp | netbios-ssn  | Samba smbd 3.0.20-Debian      |
-| 445/tcp | microsoft-ds | Samba smbd 3.0.20-Debian      |
+![1](/assets/img/machines/lame/1.jpeg)
 Estos resultados revelan servicios comunes, pero destacan dos elementos críticos:  
 una versión vulnerable del servicio **vsftpd** y un servicio **Samba** que más adelante se demostrará vulnerable a ejecución remota de comandos.
 
@@ -85,7 +79,7 @@ Después de detectar que los puertos **139** y **445** estaban abiertos, se inte
 smbclient -L 10.10.10.3 -N --option 'client min protocol = NT1'
 ```
 
-![[Pasted image 20250507003653.png]]
+![2](/assets/img/machines/lame/2.jpeg)
 - `-L`: lista los recursos compartidos del servidor.
 
 - `-N`: indica que no se usará autenticación.
