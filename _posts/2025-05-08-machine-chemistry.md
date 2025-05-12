@@ -4,7 +4,7 @@ tags:
   - eWPT
 tittle: Machine Chemistry
 comments: "true"
-"image:": /assets/img/machines/chemistry/chemistrybanner.jpeg
+image: /assets/img/machines/chemistry/chemistrybanner.jpeg
 ---
 # Introducción
 La máquina Chemistry de Hack The Box ofrece una experiencia completa que combina técnicas de enumeración web, análisis de código, identificación de vulnerabilidades conocidas y escalada de privilegios a nivel local. Este writeup documenta el proceso paso a paso seguido para comprometer tanto el acceso inicial como la obtención de privilegios de administrador (root), destacando las herramientas utilizadas, el razonamiento detrás de cada decisión y las vulnerabilidades aprovechadas durante el camino.
