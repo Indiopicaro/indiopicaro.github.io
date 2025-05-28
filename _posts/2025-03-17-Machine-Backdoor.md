@@ -5,7 +5,7 @@ title: Machine Backdoor
 comments: true
 image: /assets/img/machines/backdoor/backdoorbanner.jpeg
 ---
-# Introducción
+## Introducción
 
 En este _write-up_ abordaremos la resolución de la máquina **Backdoor** de la plataforma Hack The Box. Esta máquina, categorizada con dificultad _Media_, ofrece un escenario realista enfocado en la explotación de una aplicación Tomcat mal configurada, análisis de archivos ZIP protegidos por contraseña, y una escalación de privilegios utilizando contenedores LXD mal gestionados.
 
@@ -15,7 +15,7 @@ En este _write-up_ abordaremos la resolución de la máquina **Backdoor** de la 
 - Gdbserver RCE Vulnerability
 - Abusing Screen (Privilege Escalation) [Session synchronization]
 
-# Enumeración
+## Enumeración
 Durante la fase de enumeración, se identificaron tres puertos abiertos: el 22 (SSH), el 80 (HTTP) y el 1337 (servicio personalizado). El escaneo con Nmap reveló que el puerto 80 ejecuta Apache 2.4.41 con un sitio WordPress 5.8.1. 
 ```bash
 ❯ nmap -sCV -p 22,80,1337 10.10.11.125
@@ -61,7 +61,7 @@ Utilizando **Searchsploit**, se identificó que el plugin `ebook-download` es vu
 Esta vulnerabilidad permite acceder a archivos arbitrarios del sistema al manipular los parámetros de descarga del plugin, lo que representa un vector claro para acceder a información sensible del servidor.
 ![4](/assets/img/machines/backdoor/4.jpeg)
 
-# LFI to RCE
+## LFI to RCE
 
 Aprovechando la vulnerabilidad de **Directory Traversal** en el plugin `ebook-download`, se logró acceder a archivos sensibles del sistema. Mediante una solicitud `curl` hacia el archivo vulnerable (`filedownload.php`) con el parámetro `ebookdownloadurl` apuntando a `/etc/passwd`.
 
@@ -127,7 +127,7 @@ Con el objetivo de identificar procesos relevantes en el sistema, se desarrolló
 ```
 Este hallazgo confirmó que el puerto 1337, previamente identificado por Nmap como un servicio desconocido (`waste?`), correspondía a una instancia de **gdbserver**.
 
-# Gdbserver
+## Gdbserver
 
 A través de **Searchsploit**, se encontró que `gdbserver` es vulnerable a **Remote Code Execution (RCE)**.
 ![5](/assets/img/machines/backdoor/5.jpeg)
@@ -198,7 +198,7 @@ user@Backdoor:/home/user$ cat user.txt
 47388d2f9c7d5e9bf1dca6882f9ac95c
 ```
 
-# Abusing Screen
+## Abusing Screen
 
 se realizó una búsqueda de SUID activado para identificar posibles vectores de escalada de privilegios, encontrando varios binarios del sistema con este permiso, incluyendo `screen`. Al inspeccionar los procesos activos, se descubrió un proceso que ejecutaba `screen` como root en un bucle.
 ```bash
@@ -233,8 +233,7 @@ root@Backdoor:~#
 root@Backdoor:~# id
 uid=0(root) gid=0(root) groups=0(root) 
 root@Backdoor:~# ls                                                        
-root.txt                                                                                       root@Backdoor:~# cat root.txt
+root.txt                                                                                       
+root@Backdoor:~# cat root.txt
 2162a07c5cd66714d683b67ec972d65d    
 ```
-
-
