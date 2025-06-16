@@ -6,7 +6,7 @@ title:
 comments: "true"
 image: /assets/img/machines/Return/Returnbanner.jpeg
 ---
-# Introducción
+## Introducción
 Return es una máquina de dificultad easy que plantea el caso de una impresora de red vulnerable, a través de la cual es posible obtener acceso al sistema. Durante el proceso de enumeración, se identifica un panel de administración de impresoras que almacena credenciales LDAP en su configuración. Mediante la manipulación de estos parámetros, se logra capturar las credenciales válidas, permitiendo establecer el acceso inicial al sistema a través del servicio WinRM. Posteriormente, se descubre que el usuario comprometido pertenece a un grupo privilegiado, lo que permite realizar una escalada de privilegios efectiva hasta obtener el control total del sistema con permisos de SYSTEM.
 
 ## Skills
