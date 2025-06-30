@@ -4,7 +4,7 @@ tags:
 title:
   - Machine MetaTwo
 comments: "true"
-image: /assets/img/machines/MetaTwo/Metatwobanner.jpeg
+image: /assets/img/machines/Metatwo/Metatwobanner.jpeg
 ---
 ## Introducción
 MetaTwo es una máquina Linux de dificultad fácil en Hack The Box que combina vulnerabilidades comunes en entornos web. El punto de entrada se encuentra en un sitio WordPress vulnerable al plugin bookingpress, afectado por una inyección SQL no autenticada, lo que permite obtener hashes de contraseñas de usuarios. Tras crackear las credenciales del usuario manager, se explota una vulnerabilidad XXE en la biblioteca multimedia de WordPress (CVE-2021-29447) para revelar credenciales de acceso FTP. Desde allí, se accede a un archivo que expone las credenciales SSH del usuario jnelson. Finalmente, se logra la escalada de privilegios explotando la utilidad passpie, lo que permite obtener la contraseña del usuario root y comprometer completamente el sistema.
