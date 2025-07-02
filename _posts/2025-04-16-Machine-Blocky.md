@@ -77,7 +77,7 @@ Luego de configurar el dominio en /etc/hosts, ejecuté un análisis con whatweb 
 http://10.10.10.37 [302 Found] Apache[2.4.18], Country[RESERVED][ZZ], HTTPServer[Ubuntu Linux][Apache/2.4.18 (Ubuntu)], IP[10.10.10.37], RedirectLocation[http://blocky.htb], Title[302 Found]
 http://blocky.htb [200 OK] Apache[2.4.18], Country[RESERVED][ZZ], HTML5, HTTPServer[Ubuntu Linux][Apache/2.4.18 (Ubuntu)], IP[10.10.10.37], JQuery[1.12.4], MetaGenerator[WordPress 4.8], PoweredBy[WordPress,WordPress,], Script[text/javascript], Title[BlockyCraft &#8211; Under Construction!], UncommonHeaders[link], WordPress[4.8]
 ```
-!1](/assets/img/machines/Blocky/1.jpeg)
+![1](/assets/img/machines/Blocky/1.jpeg)
 
 Para continuar con la enumeración de contenido web, utilicé wfuzz para identificar rutas accesibles:
 ```bash
@@ -112,10 +112,10 @@ Requests/sec.: 25.19433
 ```
 
 Buscando usuarios con rol de author en la web se encontró con el usuario NOTCH.
-!2](/assets/img/machines/Blocky/2.jpeg)
+![2](/assets/img/machines/Blocky/2.jpeg)
 ## Analisis .jar
 Al acceder a la ruta /plugins, identifiqué un archivo JavaScript llamado BlockyCore.jar, el cual descargué para su análisis. Esta clase de archivos puede contener información sensible como rutas internas, credenciales codificadas, o detalles sobre el backend que podrían ser útiles para avanzar en la intrusión.
-!3](/assets/img/machines/Blocky/3.jpeg)
+![3](/assets/img/machines/Blocky/3.jpeg)
 
 Después procedí a listar su contenido. El archivo contenía únicamente dos entradas: el manifiesto MANIFEST.MF y una clase compilada en Java llamada BlockyCore.class, ubicada dentro del paquete com.myfirstplugin. Esto sugiere que se trata de un plugin personalizado, potencialmente vulnerable o que podría contener información sensible como credenciales incrustadas.
 ```bash
