@@ -4,7 +4,7 @@ tags:
 title:
   - Machine Blocky
 comments: "true"
-image: /assets/img/machines/Blocky/Blockybanner.jpeg
+image: /assets/img/machines/Blocky/blockybanner.jpeg
 ---
 
 ## Introducción
