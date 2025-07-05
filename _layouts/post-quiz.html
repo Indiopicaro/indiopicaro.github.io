@@ -241,17 +241,24 @@ layout: post
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="{{ '/assets/js/quiz.js' | relative_url }}"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       {% assign quiz_name = page.questions | remove: '.yml' %}
-      fetch("{{ '/assets/quiz/' | append: page.questions | relative_url }}")
-        .then(response => response.text())
-        .then(text => {
-          const quizData = jsyaml.load(text);
+      {% assign quiz_json = page.questions | replace: '.yml', '.json' %}
+      const quizUrl = "{{ '/assets/quiz/' | append: quiz_json | relative_url }}";
+      
+      fetch(quizUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(quizData => {
+          console.log('Quiz data loaded:', quizData);
           initQuiz(quizData);
         })
         .catch(error => {
