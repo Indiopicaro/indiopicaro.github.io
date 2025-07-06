@@ -78,7 +78,7 @@ Nmap done: 1 IP address (1 host up) scanned in 30.19 seconds
 
 ### Enumeración WEB
 Al acceder a la IP de la máquina mediante el navegador, se mostró una página por defecto de Apache, lo que indica que el servidor web está funcionando correctamente pero no tiene contenido personalizado visible en la raíz.
-!1](/assets/img/machines/Paper/1.jpeg)
+![1](/assets/img/machines/Paper/1.jpeg)
 
 Se utilizó WhatWeb para obtener más información sobre las tecnologías empleadas por el sitio. En los encabezados de respuesta se reveló el nombre del host interno: office.paper, lo que sugiere la presencia de un Virtual Host configurado en el servidor.
 ```bash
@@ -92,7 +92,7 @@ Dado que el servidor hace uso de un Virtual Host, se añadió la entrada corresp
 ```
 
 Una vez configurado el nombre de host, al acceder a http://office.paper se carga un sitio WordPress con temática de la serie The Office.
-!2](/assets/img/machines/Paper/2.jpeg)
+![2](/assets/img/machines/Paper/2.jpeg)
 
 Se volvió a ejecutar WhatWeb, esta vez apuntando al dominio office.paper, lo que reveló información más detallada del sitio. Se confirmó que el servidor está ejecutando WordPress 5.2.3 junto a PHP 7.2.24, y utilizando tecnologías como Bootstrap y jQuery. Esta versión de WordPress es antigua y podría ser vulnerable, por lo que representa un punto clave para continuar con la enumeración.
 ```bash
@@ -103,13 +103,13 @@ http://office.paper [200 OK] Apache[2.4.37][mod_fcgid/2.3.9], Bootstrap[1,5.2.3]
 ## Wordpress Unauthenticated View Private/Draft Posts
 
 Investigando vulnerabilidades asociadas a WordPress 5.2.3, se identificó una debilidad conocida que permite a usuarios no autenticados ver publicaciones privadas o en borrador. Esta vulnerabilidad puede ser aprovechada para revelar información sensible que normalmente estaría restringida, lo que representa una brecha significativa en la confidencialidad del contenido del sitio.
-!3](/assets/img/machines/Paper/3.jpeg)
+![3](/assets/img/machines/Paper/3.jpeg)
 
 Accediendo a la URL http://office.paper/?static=1, se mostró una publicación que no era visible desde la interfaz principal del sitio. En el contenido del post se hacía referencia a un enlace externo: http://chat.office.paper/register/8qozr226AhkCHZdyY, lo que sugiere la existencia de un subdominio llamado chat.office.paper, así como una ruta de registro directa, posiblemente válida para crear una cuenta en una plataforma de mensajería o chat interna.
 ```plaintext
 http://office.paper/?static=1
 ```
-!4](/assets/img/machines/Paper/4.jpeg)
+![4](/assets/img/machines/Paper/4.jpeg)
 
 Para poder acceder al subdominio identificado, se añadió la entrada correspondiente en el archivo /etc/hosts apuntando chat.office.paper a la IP objetivo, permitiendo así la navegación hacia este nuevo dominio dentro del entorno local.
 ```bash
@@ -122,37 +122,37 @@ Al acceder a la URL http://chat.office.paper/register/8qozr226AhkCHZdyY, se pres
 ```bash
 http://chat.office.paper/register/8qozr226AhkCHZdyY
 ```
-!5](/assets/img/machines/Paper/5.jpeg)
+![5](/assets/img/machines/Paper/5.jpeg)
 
 Después de registrarse y acceder al chat general de Rocket.Chat, se pudieron ver múltiples referencias y nombres de personajes de la serie The Office, lo que refuerza la temática general del entorno y puede ofrecer pistas contextuales útiles durante la explotación.
-!6](/assets/img/machines/Paper/6.jpeg)
+![6](/assets/img/machines/Paper/6.jpeg)
 
 Al inspeccionar la lista de usuarios en Rocket.Chat, se identificó un usuario llamado recyclops, que se presenta como un bot. Además, es posible enviarle mensajes directos, lo que podría abrir una vía para interactuar con funcionalidades automatizadas o descubrir información adicional mediante la comunicación con este bot.
-!7](/assets/img/machines/Paper/7.jpeg)
+![7](/assets/img/machines/Paper/7.jpeg)
 
 Se envió un mensaje directo al bot recyclops con el comando help, lo que generó una lista de comandos disponibles para interactuar con él. Entre los comandos destacados se encuentran list y files, que probablemente permiten obtener información o acceder a archivos gestionados por el bot.
-!8](/assets/img/machines/Paper/8.jpeg)
+![8](/assets/img/machines/Paper/8.jpeg)
 
 Al ejecutar el comando list en la conversación con el bot recyclops, este respondió con una lista que parece corresponder a archivos relacionados con ventas, lo que indica que el bot podría estar gestionando o proporcionando acceso a documentos internos importantes.
-!9](/assets/img/machines/Paper/9.jpeg)
+![9](/assets/img/machines/Paper/9.jpeg)
 
 Al enviar el comando list .. al bot recyclops, se obtuvo un listado detallado del contenido del directorio superior, mostrando varios archivos y carpetas típicos de un entorno Linux bajo el usuario dwight. Entre ellos se encuentran archivos de configuración personal como .bashrc, scripts como bot_restart.sh, directorios de configuración oculta (.config, .gnupg, .local) y carpetas relacionadas con hubot, lo que sugiere que el bot podría estar basado en esta plataforma.
-!10](/assets/img/machines/Paper/10.jpeg)
+![10](/assets/img/machines/Paper/10.jpeg)
 
 Al ejecutar el comando files ../hubot, el bot recyclops mostró el listado de archivos contenidos en el directorio hubot. Esto permitió identificar configuraciones específicas que probablemente controlan el comportamiento y funcionalidades del bot.
 ```plaintext
  file ../hubot
 ```
-!11](/assets/img/machines/Paper/11.jpeg)
+![11](/assets/img/machines/Paper/11.jpeg)
 
 Investigando el funcionamiento del bot Hubot, se encontró que es común que en el archivo .env se almacenen variables de entorno sensibles, incluyendo contraseñas o tokens de acceso. Esto sugiere que si se logra acceder o leer este archivo, podría revelarse información crítica para avanzar en la explotación.
-!12](/assets/img/machines/Paper/12.jpeg)
+![12](/assets/img/machines/Paper/12.jpeg)
 
 Ejecutando el comando files ../hubot/.env a través del bot, se obtuvo el contenido del archivo .env, que contiene información de configuración sensible. Este archivo suele incluir credenciales, tokens y variables críticas para el funcionamiento del bot, representando un valioso vector de ataque.
 ```plaintext
  file ../hubot/.env 
 ```
-!13](/assets/img/machines/Paper/13.jpeg)
+![13](/assets/img/machines/Paper/13.jpeg)
 
 Dentro del archivo .env se pudo identificar la variable PASSWORD con el valor Queenofblad3s!23, lo que revela una contraseña clara que podría ser utilizada para acceder a servicios protegidos o para avanzar en la explotación del sistema.
 ```plaintext
@@ -163,7 +163,7 @@ Mediante el comando files ../../../etc/passwd se pudo acceder al archivo de usua
 ```plaintext
 file ../../../etc/passwd
 ```
-!14](/assets/img/machines/Paper/14.jpeg)
+![14](/assets/img/machines/Paper/14.jpeg)
 
 ### Captura flag usuario
 
