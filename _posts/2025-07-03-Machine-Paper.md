@@ -4,7 +4,7 @@ tags:
 title:
   - Machine Paper
 comments: "true"
-image: /assets/img/machines/Paper/Paperbanner.jpeg
+image: /assets/img/machines/Paper/paperbanner.jpeg
 ---
 
 ## Introducción
