@@ -1,0 +1,59 @@
+[33mcommit 5f495f1a79c163131d00ac0870dfaecdfc585688[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Indiopicaro <eduardo_villegas_10@hotmail.com>
+Date:   Wed Jul 16 03:07:58 2025 -0400
+
+    post Spectra
+
+ .devcontainer/devcontainer.json                    |  29 [32m+[m
+ .devcontainer/post-create.sh                       |  18 [32m+[m
+ .editorconfig                                      |  19 [32m+[m
+ .gitattributes                                     |  16 [32m+[m
+ .github/workflows/pages-deploy.yml                 |  73 [32m+++[m
+ .gitignore                                         |  27 [32m+[m
+ .gitmodules                                        |   3 [32m+[m
+ .nojekyll                                          |   1 [32m+[m
+ .vscode/extensions.json                            |   3 [32m+[m
+ .vscode/settings.json                              |  30 [32m+[m
+ .vscode/tasks.json                                 |  26 [32m+[m
+ CNAME                                              |   1 [32m+[m
+ Gemfile                                            |  14 [32m+[m
+ LICENSE                                            |  21 [32m+[m
+ _config.yml                                        | 224 [32m+++++++[m
+ _data/contact.yml                                  |  40 [32m++[m
+ _data/share.yml                                    |  50 [32m++[m
+ _layouts/post-quiz.html                            | 271 [32m+++++++++[m
+ _plugins/posts-lastmod-hook.rb                     |  14 [32m+[m
+ _posts/.placeholder                                |   1 [32m+[m
+ _posts/2025-03-15-Machine-Tabby.md                 | 316 [32m++++++++++[m
+ _posts/2025-03-17-Machine-Backdoor.md              | 239 [32m++++++++[m
+ _posts/2025-03-17-Machine-Driver.md                | 230 [32m++++++++[m
+ _posts/2025-03-18-Machine-Return.md                | 251 [32m++++++++[m
+ _posts/2025-03-20-Machine-Antique.md               | 271 [32m+++++++++[m
+ _posts/2025-03-21-Machine-Netmon.md                | 309 [32m++++++++++[m
+ _posts/2025-04-04-Machine-Horizontall.md           | 304 [32m++++++++++[m
+ _posts/2025-04-16-Machine-Blocky.md                | 221 [32m+++++++[m
+ _posts/2025-04-26-IDOR.md                          | 100 [32m++++[m
+ _posts/2025-04-26-machine-cap.md                   | 126 [32m++++[m
+ _posts/2025-04-27-machine-knife.md                 | 109 [32m++++[m
+ _posts/2025-04-28-RCE.md                           | 129 [32m++++[m
+ _posts/2025-04-29-machine-permx.md                 | 214 [32m+++++++[m
+ _posts/2025-05-02-XSS.md                           | 179 [32m++++++[m
+ _posts/2025-05-06-machine-lame.md                  | 162 [32m++++++[m
+ _posts/2025-05-08-machine-chemistry.md             | 364 [32m++++++++++++[m
+ _posts/2025-06-24-Machine-Metatwo.md               | 648 [32m+++++++++++++++++++++[m
+ _posts/2025-07-03-Machine-Paper.md                 | 249 [32m++++++++[m
+ _posts/2025-07-06-Machine-Spectra.md               | 275 [32m+++++++++[m
+ _tabs/about.md                                     |  12 [32m+[m
+ _tabs/archives.md                                  |   5 [32m+[m
+ _tabs/categories.md                                |   5 [32m+[m
+ _tabs/tags.md                                      |   5 [32m+[m
+ assets/css/custom.scss                             |   9 [32m+[m
+ assets/img/favicons/android-chrome-192x192.png     | Bin [31m0[m -> [32m29701[m bytes
+ assets/img/favicons/android-chrome-512x512.png     | Bin [31m0[m -> [32m30537[m bytes
+ assets/img/favicons/apple-touch-icon.png           | Bin [31m0[m -> [32m30537[m bytes
+ assets/img/favicons/browserconfig.xml              |  10 [32m+[m
+ assets/img/favicons/favicon-16x16.png              | Bin [31m0[m -> [32m503[m bytes
+ assets/img/favicons/favicon-32x32.png              | Bin [31m0[m -> [32m936[m bytes
+ assets/img/favicons/favicon.ico                    | Bin [31m0[m -> [32m549[m bytes
+ assets/img/favicons/favicon.txt                    |   1 [32m+[m
+ assets/img/favicons/mstile-150x150.png        
