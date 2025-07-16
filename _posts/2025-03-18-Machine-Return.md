@@ -1,8 +1,8 @@
 ---
+category: Hack The Box
 tags:
   - eJPT
-title:
-  - Machine Return
+title: Machine Return
 comments: "true"
 image: /assets/img/machines/Return/Returnbanner.jpeg
 ---

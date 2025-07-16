@@ -1,9 +1,9 @@
 ---
+category: Hack The Box
 tags:
   - eJPT
   - eWPT
-title:
-  - Machine Netmon
+title: Machine Netmon
 comments: "true"
 image: /assets/img/machines/Netmon/Netmonbanner.jpeg
 ---

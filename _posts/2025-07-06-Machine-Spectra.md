@@ -1,13 +1,12 @@
 ---
+category: Hack The Box
 tags:
   - eJPT
   - eWPT
-title:
-  - Machine Spectra
+title: Machine Spectra
 comments: "true"
 image: /assets/img/machines/Spectra/Spectrabanner.jpeg
 ---
-
 ## Introducción
 En este writeup se detalla el proceso completo de explotación de la máquina Spectra de Hack The Box, que combina la identificación y explotación de vulnerabilidades en un entorno WordPress con técnicas clásicas de escalada de privilegios en Linux. Durante el análisis se realiza una enumeración exhaustiva de servicios, se descubre información sensible expuesta, se obtiene acceso remoto mediante una webshell y reverse shell, y finalmente se logra la escalada a root aprovechando configuraciones indebidas en servicios de arranque y permisos especiales. Este writeup documenta paso a paso cómo se logró comprometer completamente el sistema.
 
@@ -20,6 +19,7 @@ En este writeup se detalla el proceso completo de explotación de la máquina Sp
 
 ### Enumeración
 Como primer paso, se realizó un escaneo de puertos completo, lo que permitió identificar tres puertos abiertos en la máquina: el puerto 22 (SSH), 80 (HTTP) y 3306 (MySQL). La presencia de un servidor web y una base de datos expuesta sugiere que podría tratarse de una aplicación web con posible acceso al backend, lo cual se investigará en las siguientes etapas de la explotación.
+
 ```bash
 ❯ nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn 10.10.10.229
 Host discovery disabled (-Pn). All addresses will be marked 'up' and scan times may be slower.

