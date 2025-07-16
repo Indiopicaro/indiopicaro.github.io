@@ -148,7 +148,7 @@ chronos  katie	nginx  root  user
 ```
 
 urante la exploración del directorio /opt, se identificó un archivo interesante llamado autologin.conf.orig. Al revisar su contenido, se observó un script utilizado por Chromium OS para realizar inicio de sesión automático en el arranque del sistema. El script indica que lee la contraseña desde un archivo ubicado en /mnt/stateful_partition/etc/autologin/passwd o /etc/autologin/passwd, y luego la inyecta en el prompt de inicio de sesión. Esta información sugiere la posibilidad de que exista una contraseña almacenada en texto claro en alguno de estos directorios, lo que podría facilitar la obtención de credenciales de usuarios con mayores privilegios.
-```****
+```bash
 nginx@spectra ~ $ cd /opt
 nginx@spectra /opt $ ls -l
 total 36
