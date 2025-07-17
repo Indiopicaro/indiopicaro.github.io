@@ -56,6 +56,27 @@
   .option-card label { cursor: pointer; font-size: 1rem; color: var(--text-color); flex: 1; }
   </style>
 
+  <script>console.log("Quiz section cargada");</script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var openBtn = document.querySelector('.open-quiz-btn');
+      if (openBtn) {
+        openBtn.addEventListener('click', function() {
+          console.log('Botón de quiz presionado');
+        });
+      } else {
+        console.log('No se encontró el botón de quiz');
+      }
+    });
+    setTimeout(function() {
+      var openBtn = document.querySelector('.open-quiz-btn');
+      if (openBtn) {
+        openBtn.addEventListener('click', function() {
+          console.log('Botón de quiz presionado (timeout)');
+        });
+      }
+    }, 1000);
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
@@ -74,7 +95,7 @@
         .catch(error => {
           console.error('Error al cargar el quiz:', error);
           document.getElementById('quiz-title').textContent = 'Error al cargar el cuestionario';
-          document.getElementById('quiz-questions').innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+          document.getElementById('quiz-questions').innerHTML = `<p style=\"color: red;\">Error: ${error.message}</p>`;
         });
       // Aplicar resaltado de sintaxis a los bloques de código del quiz
       setTimeout(function() {
