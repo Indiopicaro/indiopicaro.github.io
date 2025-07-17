@@ -46,10 +46,59 @@
   .option-card label { cursor: pointer; font-size: 1rem; color: var(--text-color); flex: 1; }
   </style>
 
+<<<<<<< HEAD
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+=======
+  <script>console.log("Quiz section cargada");</script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var openBtn = document.querySelector('.open-quiz-btn');
+      if (openBtn) {
+        openBtn.addEventListener('click', function() {
+          console.log('Botón de quiz presionado');
+        });
+      } else {
+        console.log('No se encontró el botón de quiz');
+      }
+    });
+    setTimeout(function() {
+      var openBtn = document.querySelector('.open-quiz-btn');
+      if (openBtn) {
+        openBtn.addEventListener('click', function() {
+          console.log('Botón de quiz presionado (timeout)');
+        });
+      }
+    }, 1000);
+  </script>
+>>>>>>> b7b256b115220a8c15f5256c58dc112d2c0f6249
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="{{ '/assets/js/quiz.js' | relative_url }}"></script>
+<<<<<<< HEAD
+=======
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      {% assign quiz_name = page.questions | remove: '.yml' %}
+      fetch("{{ '/assets/quiz/' | append: page.questions | relative_url }}")
+        .then(response => response.text())
+        .then(text => {
+          const quizData = jsyaml.load(text);
+          initQuiz(quizData);
+        })
+        .catch(error => {
+          console.error('Error al cargar el quiz:', error);
+          document.getElementById('quiz-title').textContent = 'Error al cargar el cuestionario';
+          document.getElementById('quiz-questions').innerHTML = `<p style=\"color: red;\">Error: ${error.message}</p>`;
+        });
+      // Aplicar resaltado de sintaxis a los bloques de código del quiz
+      setTimeout(function() {
+        document.querySelectorAll('#quiz-questions pre code').forEach((block) => {
+          hljs.highlightElement(block);
+        });
+      }, 100);
+    });
+  </script>
+>>>>>>> b7b256b115220a8c15f5256c58dc112d2c0f6249
 </div> 
