@@ -209,3 +209,24 @@ function triggerConfetti() {
         }));
     }, 250);
 }
+
+(function() {
+  function tryInitQuiz() {
+    var openBtn = document.querySelector('.open-quiz-btn');
+    if (openBtn) {
+      openBtn.addEventListener('click', function() {
+        console.log('Botón de quiz presionado (auto-init)');
+      });
+      return true;
+    }
+    return false;
+  }
+
+  var attempts = 0;
+  var maxAttempts = 10;
+  var interval = setInterval(function() {
+    if (tryInitQuiz() || ++attempts >= maxAttempts) {
+      clearInterval(interval);
+    }
+  }, 500);
+})();
