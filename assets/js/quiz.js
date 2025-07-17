@@ -215,7 +215,26 @@ function triggerConfetti() {
     var openBtn = document.querySelector('.open-quiz-btn');
     if (openBtn) {
       openBtn.addEventListener('click', function() {
-        console.log('Botón de quiz presionado (auto-init)');
+        // Depuración: cargar y mostrar el quiz
+        var quizFile = openBtn.closest('.quiz-section').getAttribute('data-quiz-file');
+        var file = quizFile || (typeof page !== 'undefined' && page.questions ? '/assets/quiz/' + page.questions : null);
+        var url = file ? file : null;
+        if (!url) {
+          url = '/assets/quiz/quiz-xss.yml'; // fallback para depuración
+        }
+        fetch(url)
+          .then(response => response.text())
+          .then(text => {
+            console.log('Contenido YAML recibido:', text);
+            const quizData = jsyaml.load(text);
+            console.log('Objeto JS parseado:', quizData);
+            initQuiz(quizData);
+          })
+          .catch(error => {
+            console.error('Error al cargar el quiz:', error);
+            document.getElementById('quiz-title').textContent = 'Error al cargar el cuestionario';
+            document.getElementById('quiz-questions').innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+          });
       });
       return true;
     }
