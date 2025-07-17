@@ -1,4 +1,5 @@
 ---
+category: Hack The Box
 tags:
   - HTB
   - eJPT
@@ -7,7 +8,6 @@ comments: true
 author: Indiopicaro
 image: /assets/img/machines/cap/capbanner.jpeg
 ---
-
 # Introducción
 
 Cap es una máquina Linux de dificultad fácil que ejecuta un servidor HTTP, lo que permite a los usuarios capturar el tráfico no cifrado. Un control inadecuado da como resultado una Referencia Directa a Objetos Insegura (IDOR), que permite el acceso a la captura de otro usuario. La captura contiene credenciales en texto plano y puede utilizarse para obtener acceso. Posteriormente, se utiliza una función de Linux para obtener acceso root.

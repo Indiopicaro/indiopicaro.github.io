@@ -1,4 +1,5 @@
 ---
+category: Hack The Box
 tags:
   - eJPT
 title: Machine Lame

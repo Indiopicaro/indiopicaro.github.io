@@ -1,9 +1,9 @@
 ---
+category: Hack The Box
 tags:
   - eJPT
   - eWPT
-title:
-  - Machine Tabby
+title: Machine Tabby
 comments: "true"
 image: /assets/img/machines/tabby/tabbybanner.jpeg
 ---

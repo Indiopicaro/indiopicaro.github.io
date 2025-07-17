@@ -1,12 +1,11 @@
 ---
+category: Hack The Box
 tags:
   - eWPT
-title:
-  - Machine Paper
+title: Machine Paper
 comments: "true"
 image: /assets/img/machines/Paper/paperbanner.jpeg
 ---
-
 ## Introducción
 En este writeup se describe el proceso completo de explotación de la máquina Paper de Hack The Box, una máquina orientada a la explotación de vulnerabilidades en servicios web y escalada de privilegios en sistemas Linux. A lo largo del análisis se abordarán técnicas de enumeración de puertos y servicios, identificación de aplicaciones web (en este caso un WordPress desactualizado), descubrimiento y explotación de un bot integrado en un servicio de chat, así como la escalada de privilegios mediante una vulnerabilidad conocida en Polkit (CVE-2021-3560). Finalmente, se documenta la obtención de la flag que evidencia el compromiso total de la máquina.
 

@@ -1,4 +1,5 @@
 ---
+category: Hack The Box
 tags:
   - eJPT
   - eWPT
@@ -6,7 +7,6 @@ title: Machine Jerry
 comments: "true"
 image: /assets/img/machines/Jerry/Jerrybanner.jpeg
 ---
-
 ## Introducción
 La máquina Jerry de Hack The Box es una de las más accesibles para quienes están comenzando en el mundo del pentesting. Su enfoque está en la identificación y explotación de configuraciones por defecto en aplicaciones ampliamente utilizadas. Durante este desafío, se identificó un servidor Apache Tomcat expuesto en el puerto 8080, que permitía el acceso al panel de administración mediante credenciales conocidas. A partir de esto, fue posible cargar un archivo .war con una reverse shell, obteniendo acceso al sistema con privilegios NT AUTHORITY\SYSTEM. Este writeup documenta paso a paso cómo se logró comprometer completamente la máquina mediante técnicas simples pero efectivas.
 

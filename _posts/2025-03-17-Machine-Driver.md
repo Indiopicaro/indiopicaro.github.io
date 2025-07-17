@@ -1,8 +1,8 @@
 ---
+category: Hack The Box
 tags:
   - eJPT
-title:
-  - Machine Driver
+title: Machine Driver
 comments: "true"
 image: /assets/img/machines/driver/driverbanner.jpeg
 ---

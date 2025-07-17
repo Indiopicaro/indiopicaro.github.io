@@ -1,8 +1,8 @@
 ---
+category: Hack The Box
 tags:
   - eJPT
-title:
-  - Machine Blocky
+title: Machine Blocky
 comments: "true"
 image: /assets/img/machines/Blocky/blockybanner.jpeg
 ---

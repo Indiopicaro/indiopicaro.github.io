@@ -1,4 +1,5 @@
 ---
+category: Hack The Box
 tags:
   - HTB
   - eJPT

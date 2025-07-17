@@ -1,9 +1,9 @@
 ---
+category: Hack The Box
 tags:
   - eJPT
   - eWPT
-title:
-  - Machine Horizontall
+title: Machine Horizontall
 comments: "true"
 image: /assets/img/machines/Horizontall/Horizontallbanner.jpeg
 ---

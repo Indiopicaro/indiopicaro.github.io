@@ -1,8 +1,8 @@
 ---
+category: Hack The Box
 tags:
   - eJPT
-title:
-  - Machine Antique
+title: Machine Antique
 comments: "true"
 image: /assets/img/machines/Antique/Antiquebanner.jpeg
 ---
