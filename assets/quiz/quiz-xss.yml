@@ -1,0 +1,49 @@
+title: "¿Cuánto sabes sobre XSS?"
+questions:
+  - question: "¿Cuál es el objetivo principal de un ataque XSS?"
+    options:
+      - "Robar ancho de banda del servidor"
+      - "Causar un DoS (Denial of Service)"
+      - "Inyectar y ejecutar código malicioso en el navegador de otro usuario"
+      - "Redirigir el tráfico DNS del servidor"
+    correct_answer: 2
+    explanation: "El objetivo de un XSS es insertar código malicioso (usualmente JavaScript) en una página para que se ejecute en el navegador de otro usuario, aprovechando la confianza del navegador en el sitio web."
+
+  - question: "¿Qué tipo de XSS se produce cuando el atacante logra guardar el script en el servidor, por ejemplo en un comentario?"
+    options:
+      - "XSS Reflejado"
+      - "XSS Persistente"
+      - "XSS DOM-Based"
+      - "XSS en Cache"
+    correct_answer: 1
+    explanation: "El XSS persistente (o almacenado) ocurre cuando el script queda guardado en la base de datos del servidor y se ejecuta cada vez que un usuario accede a ese contenido (como en comentarios, perfiles, etc.)."
+
+  - question: "¿Cuál de los siguientes métodos es el más adecuado para evitar la ejecución de scripts maliciosos en un campo de entrada de usuario que será mostrado en HTML?"
+    options:
+      - |
+        ```javascript
+        element.textContent = entradaUsuario;
+        ```
+      - |
+        ```javascript
+        document.write(entradaUsuario);
+        ```
+      - |
+        ```javascript
+        element.innerHTML = entradaUsuario;
+        ```
+      - |
+        ```javascript
+        eval(entradaUsuario);
+        ```
+    correct_answer: 0
+    explanation: "`textContent` es seguro porque inserta texto como tal sin interpretarlo como HTML o JS. En cambio, `innerHTML`, `document.write` o `eval` ejecutan o interpretan código."
+    
+  - question: "¿Qué función cumple la cabecera `Content-Security-Policy`?"
+    options:
+      - "Permitir múltiples conexiones simultáneas"
+      - "Evitar que un sitio web cargue imágenes externas"
+      - "Aumentar la velocidad de carga de la web"
+      - "Definir qué recursos están permitidos en la página, incluyendo scripts"
+    correct_answer: 3
+    explanation: "CSP permite establecer una política de seguridad para controlar qué scripts (y otros recursos) se pueden ejecutar en la página, bloqueando intentos de XSS si no cumplen con esa política."

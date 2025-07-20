@@ -1,0 +1,99 @@
+title: "Cuestionario sobre RCE"
+
+questions:
+
+  - question: "¿Qué herramienta se utiliza para analizar la configuración de seguridad de un servidor web y detectar vulnerabilidades como RCE?"
+
+    options:
+
+      - "Burp Suite"
+
+      - "Wireshark"
+
+      - "Metasploit"
+
+      - "Nmap"
+
+    correct_answer: 0
+
+    explanation: "Burp Suite es una de las herramientas más utilizadas en pruebas de penetración para realizar auditorías de seguridad en aplicaciones web. Permite detectar vulnerabilidades como RCE, XSS y otros tipos de fallos de seguridad que pueden comprometer un servidor."
+
+  - question: "¿Qué es un RCE (Remote Code Execution) y cómo se puede prevenir?"
+
+    options:
+
+      - "Es una vulnerabilidad que permite a un atacante ejecutar comandos en el sistema objetivo."
+
+      - "Es un ataque de fuerza bruta en contraseñas. Se puede prevenir usando contraseñas fuertes."
+
+      - "Es una técnica para obtener acceso root en un sistema. Se previene actualizando el sistema regularmente."
+
+      - "Es una técnica para eludir las restricciones de red. Se previene con firewalls."
+
+    correct_answer: 0
+
+    explanation: "La validación insuficiente de entradas del usuario es una de las causas más comunes de vulnerabilidades RCE, ya que permite la inyección de código malicioso."
+
+  - question: "¿Qué técnica se utiliza para obtener una shell inicial a través de una vulnerabilidad en una aplicación web?"
+
+    options:
+
+      - "Cross-Site Scripting (XSS)"
+
+      - "Remote Code Execution (RCE)"
+
+      - "SLocal File Inclusion (LFI)"
+
+      - "SQL Injection"
+
+    correct_answer: 1
+
+    explanation: "Remote Code Execution (RCE) es una vulnerabilidad crítica que permite a un atacante ejecutar comandos arbitrarios en el sistema de un servidor a través de una aplicación web. Esto puede permitir al atacante obtener acceso a la máquina víctima y ejecutar cualquier comando del sistema operativo, lo que puede llevar a un control total del sistema comprometido."
+
+  - question: "¿Qué es una vulnerabilidad de tipo RCE?"
+
+    options:
+
+      - "Un ataque de denegación de servicio"
+
+      - "Un error en la configuración del firewall"
+
+      - "La ejecución remota de comandos en un sistema vulnerable"
+
+      - "Un tipo de inyección SQL"
+
+    correct_answer: 2
+
+    explanation: "RCE permite a un atacante ejecutar comandos arbitrarios en el servidor víctima a través de una aplicación vulnerable, comprometiendo su seguridad."
+
+  - question: "¿Cuál de los siguientes escenarios puede conducir a un RCE?"
+
+    options:
+
+      - "El uso de funciones inseguras como eval() en aplicaciones web"
+
+      - "Permisos de archivo incorrectos"
+
+      - "Uso de puertos no estándar"
+
+      - "Contraseñas débiles"
+
+    correct_answer: 0
+
+    explanation: "Funciones como eval() o system() pueden ser explotadas si procesan entradas del usuario sin validación, lo que puede permitir ejecución de comandos."
+
+  - question: "¿Cómo se puede mitigar una vulnerabilidad de RCE en una aplicación PHP?"
+
+    options:
+
+      - "Usando HTTPS"
+
+      - "Desactivando funciones peligrosas (system, exec)"
+
+      - "Cambiando el puerto del servidor"
+
+      - "Instalando antivirus"
+
+    correct_answer: 1
+
+    explanation: "Desactivar funciones que permiten ejecución de comandos desde código PHP es una medida de prevención efectiva contra RCE."

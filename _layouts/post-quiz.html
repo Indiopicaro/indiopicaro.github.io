@@ -1,0 +1,271 @@
+---
+layout: post
+---
+
+{{ content }}
+
+{% if page.quiz %}
+<div class="quiz-section">
+  <button class="open-quiz-btn">Realizar Evaluación</button>
+
+  <div id="quiz-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="quiz-container">
+        <h3 id="quiz-title">Cargando preguntas...</h3>
+        <div id="quiz-questions"></div>
+        <div id="quiz-score" class="hidden"></div>
+        <button class="check-answers">Verificar Respuestas</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+  .open-quiz-btn {
+    background-color: var(--link-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin: 1rem 0;
+  }
+
+  .open-quiz-btn:hover {
+    opacity: 0.9;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    overflow-y: auto;
+  }
+
+  .modal-content {
+    background-color: var(--card-bg);
+    margin: 2% auto;
+    padding: 1.5rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+
+  .close-modal {
+    position: absolute;
+    right: 1rem;
+    top: 0.5rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-color);
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .close-modal:hover {
+    opacity: 1;
+  }
+
+  .quiz-container {
+    padding: 0;
+  }
+
+  #quiz-title {
+    font-size: 1.5rem;
+    margin: 0 0 1.5rem 0;
+    color: var(--text-color);
+  }
+
+  .quiz-question {
+    margin-bottom: 2rem;
+  }
+
+  .question-text {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: var(--text-color);
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .option input[type="radio"] {
+    margin: 0;
+    width: 18px;
+    height: 18px;
+  }
+
+  .option label {
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--text-color);
+  }
+
+  .feedback {
+    margin-top: 1rem;
+    padding: 0.8rem 1.2rem;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+
+  .feedback.correct {
+    background-color: #4caf50;
+    color: white;
+  }
+
+  .feedback.incorrect {
+    background-color: #f44336;
+    color: white;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  .check-answers {
+    background-color: var(--link-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: 2rem;
+    font-size: 1rem;
+  }
+
+  .check-answers:hover {
+    opacity: 0.9;
+  }
+
+  #quiz-score {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 6px;
+    text-align: right;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  #quiz-score.partial {
+    background-color: #ff5252;
+    color: white;
+  }
+
+  #quiz-score.perfect {
+    background-color: #4caf50;
+    color: white;
+  }
+
+  .score-bar {
+    flex-grow: 1;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    margin: 0 1rem;
+    overflow: hidden;
+  }
+
+  .score-progress {
+    height: 100%;
+    background-color: white;
+    transition: width 0.3s ease;
+  }
+
+  .option-card {
+    display: flex;
+    align-items: center;
+    background: #181c20;
+    border-radius: 8px;
+    padding: 0.7rem 1rem;
+    margin-bottom: 0.7rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    transition: border 0.2s, box-shadow 0.2s;
+    border: 2px solid transparent;
+    gap: 1rem;
+  }
+  .option-card:hover {
+    border: 2px solid var(--link-color);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  }
+  .option-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    background: #23272e;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-radius: 50%;
+    margin-right: 0.7rem;
+    flex-shrink: 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+  }
+  .option-card input[type="radio"] {
+    margin-right: 0.7rem;
+    accent-color: var(--link-color);
+    width: 18px;
+    height: 18px;
+  }
+  .option-card label {
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--text-color);
+    flex: 1;
+  }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="{{ '/assets/js/quiz.js' | relative_url }}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      {% assign quiz_name = page.questions | remove: '.yml' %}
+      fetch("{{ '/assets/quiz/' | append: page.questions | relative_url }}")
+        .then(response => response.text())
+        .then(text => {
+          const quizData = jsyaml.load(text);
+          initQuiz(quizData);
+        })
+        .catch(error => {
+          console.error('Error al cargar el quiz:', error);
+          document.getElementById('quiz-title').textContent = 'Error al cargar el cuestionario';
+          document.getElementById('quiz-questions').innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+        });
+      // Aplicar resaltado de sintaxis a los bloques de código del quiz
+      setTimeout(function() {
+        document.querySelectorAll('#quiz-questions pre code').forEach((block) => {
+          hljs.highlightElement(block);
+        });
+      }, 100);
+    });
+  </script>
+</div>
+{% endif %} 
