@@ -3,9 +3,9 @@ tags:
   - eJPT
   - eWPT
 Category: Hack The Box
-title: Machine goodgames
+title: Machine Goodgames
 comments: "true"
-image: /assets/img/machines/goodgames/goodgamesbanner.jpeg
+image: /assets/img/machines/Goodgames/Goodgamesbanner.jpeg
 ---
 
 ## Introducción
