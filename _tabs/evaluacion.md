@@ -18,19 +18,19 @@ Esta herramienta te permite evaluar cuestionarios en formato Markdown de manera 
 
 1. Pregunta
 
-a) Opción 1  
-b) Opción 2 *  
-c) Opción 3  
-d) Opción 4  
+a) Opción 1
+b) Opción 2 *
+c) Opción 3
+d) Opción 4
 
 Explicación: [Explicación de por qué la respuesta correcta es la marcada con *]
 
-Instrucciones adicionales:  
-- Marca la respuesta correcta con un asterisco (*) al final de la opción.  
-- Cada pregunta debe ir numerada.  
-- Cada pregunta debe tener exactamente 4 opciones.  
-- Explica claramente la respuesta correcta.  
-- Entrega todo en un solo bloque de texto para copiar y pegar.  
+Instrucciones adicionales:
+- Marca la respuesta correcta con un asterisco (*) al final de la opción.
+- Cada pregunta debe ir numerada.
+- Cada pregunta debe tener exactamente 4 opciones.
+- Explica claramente la respuesta correcta.
+- Entrega todo en un solo bloque de texto para copiar y pegar.
 
 Genera el cuestionario ahora."></textarea>
     <button id="processBtn" class="btn btn-primary">Procesar Cuestionario</button>
