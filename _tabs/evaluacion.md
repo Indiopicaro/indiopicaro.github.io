@@ -10,8 +10,29 @@ Esta herramienta te permite evaluar cuestionarios en formato Markdown de manera 
 
 <div class="evaluation-container">
   <div class="input-section">
-    <h3>Pega tu cuestionario aquí:</h3>
-    <textarea id="markdownInput" placeholder="Pega tu cuestionario en formato Markdown aquí..."></textarea>
+    <div class="input-header">
+      <h3>Pega tu cuestionario aquí:</h3>
+      <button id="copyPromptBtn" class="btn btn-info">Copiar Prompt</button>
+    </div>
+    <textarea id="markdownInput" placeholder="Quiero que generes un cuestionario sobre [TEMA] con [NÚMERO] preguntas. El formato debe ser exactamente el siguiente:
+
+1. Pregunta
+
+a) Opción 1  
+b) Opción 2 *  
+c) Opción 3  
+d) Opción 4  
+
+Explicación: [Explicación de por qué la respuesta correcta es la marcada con *]
+
+Instrucciones adicionales:  
+- Marca la respuesta correcta con un asterisco (*) al final de la opción.  
+- Cada pregunta debe ir numerada.  
+- Cada pregunta debe tener exactamente 4 opciones.  
+- Explica claramente la respuesta correcta.  
+- Entrega todo en un solo bloque de texto para copiar y pegar.  
+
+Genera el cuestionario ahora."></textarea>
     <button id="processBtn" class="btn btn-primary">Procesar Cuestionario</button>
     <button id="clearBtn" class="btn btn-secondary">Limpiar</button>
   </div>
@@ -45,6 +66,17 @@ Esta herramienta te permite evaluar cuestionarios en formato Markdown de manera 
 
 .input-section {
   margin-bottom: 30px;
+}
+
+.input-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.input-header h3 {
+  margin: 0;
 }
 
 #markdownInput {
@@ -91,6 +123,15 @@ Esta herramienta te permite evaluar cuestionarios en formato Markdown de manera 
 
   .btn-secondary:hover {
     background-color: #545b62;
+  }
+
+  .btn-info {
+    background-color: #17a2b8;
+    color: white;
+  }
+
+  .btn-info:hover {
+    background-color: #138496;
   }
 
 .results-section {

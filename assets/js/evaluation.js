@@ -2,13 +2,14 @@ document.addEventListener('DOMContentLoaded', function() {
   const markdownInput = document.getElementById('markdownInput');
   const processBtn = document.getElementById('processBtn');
   const clearBtn = document.getElementById('clearBtn');
+  const copyPromptBtn = document.getElementById('copyPromptBtn');
   const resultsSection = document.getElementById('resultsSection');
   const evaluationResults = document.getElementById('evaluationResults');
   const totalQuestions = document.getElementById('totalQuestions');
   const correctAnswers = document.getElementById('correctAnswers');
   const score = document.getElementById('score');
 
-  if (!markdownInput || !processBtn || !clearBtn || !resultsSection || !evaluationResults) {
+  if (!markdownInput || !processBtn || !clearBtn || !copyPromptBtn || !resultsSection || !evaluationResults) {
     console.error('Elementos necesarios no encontrados');
     return;
   }
@@ -37,6 +38,46 @@ document.addEventListener('DOMContentLoaded', function() {
     markdownInput.value = '';
     resultsSection.style.display = 'none';
     evaluationResults.innerHTML = '';
+  });
+
+  copyPromptBtn.addEventListener('click', function() {
+    const promptText = `Quiero que generes un cuestionario sobre [TEMA] con [NÚMERO] preguntas. El formato debe ser exactamente el siguiente:
+
+1. Pregunta
+
+a) Opción 1  
+b) Opción 2 *  
+c) Opción 3  
+d) Opción 4  
+
+Explicación: [Explicación de por qué la respuesta correcta es la marcada con *]
+
+Instrucciones adicionales:  
+- Marca la respuesta correcta con un asterisco (*) al final de la opción.  
+- Cada pregunta debe ir numerada.  
+- Cada pregunta debe tener exactamente 4 opciones.  
+- Explica claramente la respuesta correcta.  
+- Entrega todo en un solo bloque de texto para copiar y pegar.  
+
+Genera el cuestionario ahora.`;
+
+    // Crear un elemento temporal para copiar el texto
+    const tempTextArea = document.createElement('textarea');
+    tempTextArea.value = promptText;
+    document.body.appendChild(tempTextArea);
+    tempTextArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempTextArea);
+
+    // Mostrar feedback visual
+    const originalText = copyPromptBtn.textContent;
+    copyPromptBtn.textContent = '¡Copiado!';
+    copyPromptBtn.style.backgroundColor = '#28a745';
+    
+    setTimeout(function() {
+      copyPromptBtn.textContent = originalText;
+      copyPromptBtn.style.backgroundColor = '#17a2b8';
+    }, 2000);
   });
 
   function processMarkdownQuiz(markdown) {
@@ -212,33 +253,5 @@ document.addEventListener('DOMContentLoaded', function() {
     score.textContent = evaluation.score + '%';
   }
 
-  // Ejemplo de cuestionario para mostrar el formato esperado
-  const exampleQuiz = `1. ¿Cuál es el protocolo más común para transferencia segura de archivos?
-
-a) FTP
-b) SFTP *
-c) HTTP
-d) SMTP
-
-Explicación: SFTP (SSH File Transfer Protocol) es el protocolo más seguro para transferir archivos ya que utiliza SSH para cifrar toda la comunicación, incluyendo autenticación y datos.
-
-2. ¿Qué herramienta se utiliza para escanear puertos?
-
-a) Wireshark
-b) Nmap *
-c) Metasploit
-d) Burp Suite
-
-Explicación: Nmap (Network Mapper) es la herramienta estándar de la industria para el descubrimiento de hosts y escaneo de puertos en redes. Permite detectar qué servicios están ejecutándose en qué puertos.
-
-3. ¿Cuál es el puerto por defecto para HTTPS?
-
-a) 80
-b) 443 *
-c) 8080
-d) 8443
-
-Explicación: El puerto 443 es el puerto estándar asignado por la IANA para el protocolo HTTPS (HTTP sobre SSL/TLS). El puerto 80 es para HTTP sin cifrar.`;
-
-  markdownInput.placeholder = exampleQuiz;
+  // El prompt ya está pre-cargado en el textarea, no necesitamos placeholder
 });
